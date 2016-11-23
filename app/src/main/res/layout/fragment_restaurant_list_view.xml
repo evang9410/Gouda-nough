@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.nough.gouda.goudanough.fragments.RestaurantListView">
 <ListView
+    android:id="@id/android:list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">

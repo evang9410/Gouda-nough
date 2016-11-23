@@ -24,6 +24,7 @@
         android:layout_height="0dp"
         class = "com.nough.gouda.goudanough.fragments.Navigation"/>
     <fragment
+        android:id="@+id/restaurant_listview"
         android:name="com.nough.gouda.goudanough.fragments.RestaurantListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,5 +1,6 @@
 package com.nough.gouda.goudanough.fragments;
 
+import android.app.ListFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
+import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +27,7 @@ import com.nough.gouda.goudanough.Restaurant;
  * THIS WILL BE THE LIST VIEW FRAGMENT THAT DISPLAYS A LIST OF RESTAURANT IN A LIST VIEW.
  * THE FRAGMENT CONSTRUCTOR SHOULD TAKE IN A PARAMETER OF THE DATA SET.
  */
-public class RestaurantListView extends Fragment {
+public class RestaurantListView extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,25 +44,6 @@ public class RestaurantListView extends Fragment {
     }
 
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RestaurantListView.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RestaurantListView newInstance(String param1, String param2) {
-        RestaurantListView fragment = new RestaurantListView();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,35 +57,12 @@ public class RestaurantListView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
+
+
+        return view;
     }
 
-
-
-/*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }*/
 
     /**
      * This interface must be implemented by activities that contain this
