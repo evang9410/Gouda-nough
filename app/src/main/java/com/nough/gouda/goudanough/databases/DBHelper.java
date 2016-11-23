@@ -3,6 +3,7 @@ package com.nough.gouda.goudanough.databases;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * This class has the purpose of dealing
@@ -105,26 +106,51 @@ public class DBHelper extends SQLiteOpenHelper {
             + " text, " + FK_ADDR_RESTO +");";
 
 
-
     /**
-     * Constructor
+     * Default Constructor.
      *
      * @param context
-     * @param name
-     * @param factory
-     * @param version
      */
-    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DBHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    /**
+     * This method takes care of creating all my tables.
+     * @param database
+     */
+    @Override
+    public void onCreate(SQLiteDatabase database) {
+
+        database.execSQL(DATABASE_CREATE_RESTAURANT);
+        Log.i(TAG, "CREATE RESTO TBL");
+        database.execSQL(DATABASE_CREATE_USER);
+        Log.i(TAG, "CREATE USER TBL");
+        database.execSQL(DATABASE_CREATE_COMMENTS);
+        Log.i(TAG, "CREATE COMMENTS TBL");
+        database.execSQL(DATABASE_CREATE_GENRE);
+        Log.i(TAG, "CREATE GENRE TBL");
+        database.execSQL(DATABASE_CREATE_ADDRESS);
+        Log.i(TAG, "CREATE ADDRESS TBL");
+
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+        Log.w(TAG, DBHelper.class.getName() + "Upgrading database from version "
+                + oldVersion + " to " + newVersion
+                + ", which will destroy all old data");
+        // Im dropping all the tables in order to create new ones.
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENTS);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_GENRE);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_ADDRESS);
+        onCreate(database);
+        Log.i(TAG, "UPGRADED");
     }
-
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onOpen(SQLiteDatabase database) {
+        Log.i(TAG, "OPENED");
     }
 }
