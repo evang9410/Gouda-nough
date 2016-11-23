@@ -1,5 +1,6 @@
 package com.nough.gouda.goudanough.databases;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //RESTO TABLE
     public static final String COLUMN_RESTOID = "_id";
+    public static final String COLUMN_RESTO_NAME = "name";
     public static final String COLUMN_PRICERANGE = "priceRange";
     public static final String COLUMN_RATING = "rating";
     public static final String COLUMN_NOTES = "notes";
@@ -71,39 +73,57 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final DBHelper dbh = null;
     //Database creation raw SQL statement
-    private static final String DATABASE_CREATE_RESTAURANT = "create table "
-            + TABLE_RESTAURANT + "( " + COLUMN_RESTOID
-            + " integer primary key autoincrement, " + COLUMN_PRICERANGE
-            + " text, " + COLUMN_RATING + " text, "
-            + COLUMN_NOTES + " text, " + COLUMN_RESTO_USERID
-            + " integer, " + FK_RESTO_USER +");";
+    private static final String DATABASE_CREATE_RESTAURANT = "create table " + TABLE_RESTAURANT
+            + "( "
+            + COLUMN_RESTOID + " integer primary key autoincrement, "
+            + COLUMN_RESTO_NAME + " text, "
+            + COLUMN_PRICERANGE + " text, "
+            + COLUMN_RATING + " text, "
+            + COLUMN_NOTES + " text, "
+            + COLUMN_RESTO_USERID + " integer, "
+            + COLUMN_LONG + " integer, "
+            + COLUMN_LAT + " integer, "
+            + FK_RESTO_USER
+            +");";
 
-    private static final String DATABASE_CREATE_USER = "create table "
-            + TABLE_USERS + "( " + COLUMN_USERID
-            + " integer primary key autoincrement, " + COLUMN_NAME
-            + " text, " + COLUMN_USER_POSTALCODE + " text, "
-            + COLUMN_PASS + " text, " + COLUMN_EMAIL
-            + " text" + ");";
+    private static final String DATABASE_CREATE_USER = "create table " + TABLE_USERS
+            + "( "
+            + COLUMN_USERID + " integer primary key autoincrement, "
+            + COLUMN_NAME + " text, "
+            + COLUMN_USER_POSTALCODE + " text, "
+            + COLUMN_PASS + " text, "
+            + COLUMN_EMAIL + " text"
+            + ");";
 
-    private static final String DATABASE_CREATE_COMMENTS = "create table "
-            + TABLE_COMMENTS + "( " + COLUMN_COMMENTID
-            + " integer primary key autoincrement, " + COLUMN_TITLE
-            + " text, " + COLUMN_COMM_RATING + " text, "
-            + COLUMN_CONTENT + " text, " + COLUMN_COMM_RESTOID
-            + " integer, " + COLUMN_COMM_USERID + " integer, "
-            + FK_COMM_RESTO + ", " + FK_COMM_USER + ");";
+    private static final String DATABASE_CREATE_COMMENTS = "create table " + TABLE_COMMENTS
+            + "( "
+            + COLUMN_COMMENTID + " integer primary key autoincrement, "
+            + COLUMN_TITLE + " text, "
+            + COLUMN_COMM_RATING + " text, "
+            + COLUMN_CONTENT + " text, "
+            + COLUMN_COMM_RESTOID + " integer, "
+            + COLUMN_COMM_USERID + " integer, "
+            + FK_COMM_RESTO + ", "
+            + FK_COMM_USER
+            + ");";
 
-    private static final String DATABASE_CREATE_GENRE = "create table "
-            + TABLE_GENRE + "( " + COLUMN_GENREID
-            + " integer primary key autoincrement, " + COLUMN_GENRENME
-            + " text, " + COLUMN_GEN_RESTOID + " integer, " + FK_GEN_RESTO +");";
+    private static final String DATABASE_CREATE_GENRE = "create table " + TABLE_GENRE
+            + "( "
+            + COLUMN_GENREID + " integer primary key autoincrement,"
+            + COLUMN_GENRENME + " text, "
+            + COLUMN_GEN_RESTOID + " integer, "
+            + FK_GEN_RESTO
+            + ");";
 
-    private static final String DATABASE_CREATE_ADDRESS = "create table "
-            + TABLE_ADDRESS + "( " + COLUMN_ADDRESSID
-            + " integer primary key autoincrement, " + COLUMN_STREETNAME
-            + " text, " + COLUMN_STREETNUMBER + " text, "
-            + COLUMN_CITY + " text, " + COLUMN_POSTALCODE
-            + " text, " + FK_ADDR_RESTO +");";
+    private static final String DATABASE_CREATE_ADDRESS = "create table " + TABLE_ADDRESS
+            + "( "
+            + COLUMN_ADDRESSID + " integer primary key autoincrement, "
+            + COLUMN_STREETNAME + " text, "
+            + COLUMN_STREETNUMBER + " text, "
+            + COLUMN_CITY + " text, "
+            + COLUMN_POSTALCODE + " text, "
+            + FK_ADDR_RESTO
+            +");";
 
 
     /**
@@ -152,5 +172,55 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase database) {
         Log.i(TAG, "OPENED");
+    }
+
+    /**
+     * This method will insert a new Restaurant record to the database.
+     *
+     * @param name name of the restaurant
+     * @param price price range
+     * @param rating ratings
+     * @param notes notes about the restaurant like "Traditional Vietnamese food."
+     * @param userID who submitted
+     * @param longitude precise location
+     * @param latitude precise location
+     * @return the number of rows affected.
+     */
+    public long insertNewResto(String name, String price, String rating,
+                               String notes, int userID, int longitude, int latitude)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_RESTO_NAME,name);
+        cv.put(COLUMN_PRICERANGE,price);
+        cv.put(COLUMN_RATING,rating);
+        cv.put(COLUMN_NOTES,notes);
+        cv.put(COLUMN_RESTO_USERID,userID);
+        cv.put(COLUMN_LONG,longitude);
+        cv.put(COLUMN_LAT,latitude);
+
+        return getWritableDatabase().insert(TABLE_RESTAURANT, null, cv);
+
+
+    }
+
+    /**
+     * This method will take care of inserting a new user record to the database.
+     *
+     * @param name name of the person
+     * @param postalCode person's postal code.
+     * @param pass user's password.
+     * @param email user's email.
+     * @return the number of rows affected
+     */
+    public long insertNewUser(String name, String postalCode, String pass, String email){
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_NAME,name);
+        cv.put(COLUMN_USER_POSTALCODE,postalCode);
+        cv.put(COLUMN_PASS,pass);
+        cv.put(COLUMN_EMAIL,email);
+
+        return getWritableDatabase().insert(TABLE_USERS, null, cv);
     }
 }
