@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.database.Cursor;
 
 /**
  * This class has the purpose of dealing
@@ -122,6 +123,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_STREETNUMBER + " text, "
             + COLUMN_CITY + " text, "
             + COLUMN_POSTALCODE + " text, "
+            + COLUMN_ADDR_RESTOID + "integer, "
             + FK_ADDR_RESTO
             +");";
 
@@ -272,7 +274,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param postalCode
      * @return the number of rows affected.
      */
-    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode){
+    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode, String restoID){
 
         ContentValues cv = new ContentValues();
 
@@ -280,8 +282,56 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_STREETNUMBER,streetNumber);
         cv.put(COLUMN_CITY,city);
         cv.put(COLUMN_POSTALCODE,postalCode);
+        cv.put(COLUMN_ADDR_RESTOID,restoID);
+
 
         return getWritableDatabase().insert(TABLE_ADDRESS, null, cv);
     }
+
+    /**
+     * This method will return all the restaurants in the database.
+     * @return
+     */
+    public Cursor getRestaurants(){
+        return getReadableDatabase().query(TABLE_RESTAURANT, null, null, null,
+                null,null,null);
+    }
+
+    /**
+     * This method will return all the users in the database.
+     * @return
+     */
+    public Cursor getUsers(){
+        return getReadableDatabase().query(TABLE_USERS, null, null, null,
+                null,null,null);
+    }
+
+    /**
+     * This method will return all comments in the database.
+     * @return
+     */
+    public Cursor getComments(){
+        return getReadableDatabase().query(TABLE_COMMENTS, null, null, null,
+                null,null,null);
+    }
+
+    /**
+     * This method will return all the genres in the database.
+     * @return
+     */
+    public Cursor getGenre(){
+        return getReadableDatabase().query(TABLE_GENRE, null, null, null,
+                null,null,null);
+    }
+
+    /**
+     * This method will return all the addresses in the database.
+     * @return
+     */
+    public Cursor getAddresses(){
+        return getReadableDatabase().query(TABLE_ADDRESS, null, null, null,
+                null,null,null);
+    }
+
 
 }
