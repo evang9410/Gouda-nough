@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     tools:context="com.nough.gouda.goudanough.fragments.RestaurantListView">
 <ListView
+    android:id="@android:id/list"
     android:background="@drawable/border"
-    android:id="@id/android:list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 </ListView>

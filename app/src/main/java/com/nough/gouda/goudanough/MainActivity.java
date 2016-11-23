@@ -1,7 +1,10 @@
 package com.nough.gouda.goudanough;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.support.v4.app.ListFragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nough.gouda.goudanough.fragments.Header;
 import com.nough.gouda.goudanough.fragments.Navigation;
+import com.nough.gouda.goudanough.fragments.RestaurantListView;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -20,7 +25,16 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView lv = (ListView)findViewById(android.R.id.list);
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        Fragment header = new Header();
+        Fragment nav = new Navigation();
+        RestaurantListView list = new RestaurantListView();
+        
+        ListView lv = list.getListView();
+        ft.add(R.id.mainLayout,header).add(nav,"").add(list,"restaurant_listview").commit();
+
 
         // Test dataset for the list view adapter
         Restaurant[] rs = new Restaurant[2];
@@ -28,13 +42,8 @@ public class MainActivity extends AppCompatActivity  {
         rs[1] = new Restaurant("My resto2", "https://google.com", "food",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
         RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
 
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this,"String", Toast.LENGTH_SHORT).show();
-            }
-        });
+        list.setAdapter(adapter);
+
     }
 
 
