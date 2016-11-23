@@ -206,11 +206,11 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * This method will take care of inserting a new user record to the database.
      *
-     * @param name name of the person
+     * @param name name of the person.
      * @param postalCode person's postal code.
      * @param pass user's password.
      * @param email user's email.
-     * @return the number of rows affected
+     * @return the number of rows affected.
      */
     public long insertNewUser(String name, String postalCode, String pass, String email){
 
@@ -223,4 +223,44 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return getWritableDatabase().insert(TABLE_USERS, null, cv);
     }
+
+    /**
+     * This method will take care of inserting a new comment to the database.
+     *
+     * @param title the title of the comment.
+     * @param content the content of the comment.
+     * @param rating the rating of the comment.
+     * @param userID who made the comment.
+     * @param restoID to which resto this comment belongs to.
+     * @return the number of rows affected.
+     */
+    public long insertNewComment(String title, String content, String rating, int userID, int restoID){
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TITLE,title);
+        cv.put(COLUMN_COMM_RATING,rating);
+        cv.put(COLUMN_CONTENT,content);
+        cv.put(COLUMN_COMM_RESTOID,restoID);
+        cv.put(COLUMN_COMM_USERID,userID);
+
+        return getWritableDatabase().insert(TABLE_COMMENTS, null, cv);
+    }
+
+    /**
+     * This method will take care of inserting a new Genre to the database.
+     * @param genreName the name of the resto genre for example "traditioanl chinese food"
+     * @param restoID which resto this genre belongs to.
+     * @return number of rows affected.
+     */
+    public long insertNewGenre(String genreName, int restoID){
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_GENRENME,genreName);
+        cv.put(COLUMN_GEN_RESTOID,restoID);
+
+        return getWritableDatabase().insert(TABLE_COMMENTS, null, cv);
+    }
+
 }
