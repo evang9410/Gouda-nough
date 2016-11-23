@@ -260,7 +260,28 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_GENRENME,genreName);
         cv.put(COLUMN_GEN_RESTOID,restoID);
 
-        return getWritableDatabase().insert(TABLE_COMMENTS, null, cv);
+        return getWritableDatabase().insert(TABLE_GENRE, null, cv);
+    }
+
+    /**
+     * This method will take care of inserting new addresses to the database.
+     *
+     * @param streetName
+     * @param streetNumber
+     * @param city
+     * @param postalCode
+     * @return the number of rows affected.
+     */
+    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode){
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_STREETNAME,streetName);
+        cv.put(COLUMN_STREETNUMBER,streetNumber);
+        cv.put(COLUMN_CITY,city);
+        cv.put(COLUMN_POSTALCODE,postalCode);
+
+        return getWritableDatabase().insert(TABLE_ADDRESS, null, cv);
     }
 
 }
