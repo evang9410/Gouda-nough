@@ -5,10 +5,12 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/list_featured_img"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/list_resto_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="My Restaurant"
