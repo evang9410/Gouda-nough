@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.Restaurant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,11 +34,13 @@ public class RestaurantListView extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+   // private OnFragmentInteractionListener mListener;
 
     public RestaurantListView() {
         // Required empty public constructor
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -73,6 +76,9 @@ public class RestaurantListView extends Fragment {
         return inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
     }
 
+
+
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -95,7 +101,7 @@ public class RestaurantListView extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this
@@ -107,8 +113,8 @@ public class RestaurantListView extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+   /* public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
+    }*/
 }
