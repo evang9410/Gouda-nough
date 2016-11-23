@@ -21,17 +21,36 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //database field names
     public static final String COLUMN_RESTOID = "_id";
-    public static final String COLUMN_PRICERANGE = "_id";
-    public static final String COLUMN_RATING = "_id";
-    public static final String COLUMN_NOTES = "_id";
-    public static final String COLUMN_RESTO_USERID = "_id";
-    public static final String COLUMN_LONG = "_id";
-    public static final String COLUMN_LAT = "_id";
-    public static final String COLUMN_TITLE = "_id";
-    public static final String COLUMN_COMM_RATING = "_id";
-    public static final String COLUMN_CONTENT = "_id";
-    public static final String COLUMN_COMM_RESTOID = "_id";
-    public static final String COLUMN_COMM_USERID = "_id";
+    public static final String COLUMN_PRICERANGE = "priceRange";
+    public static final String COLUMN_RATING = "rating";
+    public static final String COLUMN_NOTES = "notes";
+    public static final String COLUMN_RESTO_USERID = "userID";
+    public static final String COLUMN_LONG = "longitude";
+    public static final String COLUMN_LAT = "_latitude";
+    public static final String COLUMN_COMMENTID = "_id";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_COMM_RATING = "rating";
+    public static final String COLUMN_CONTENT = "comment";
+    public static final String COLUMN_COMM_RESTOID = "restoID";
+    public static final String COLUMN_COMM_USERID = "userID";
+    public static final String COLUMN_USERID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_USER_POSTALCODE = "postalCode";
+    public static final String COLUMN_PASS = "pass";
+    public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_STREETNAME = "streetName";
+    public static final String COLUMN_STREETNUMBER = "streetNumber";
+    public static final String COLUMN_CITY = "city";
+    public static final String COLUMN_POSTALCODE = "postalCode";
+    public static final String COLUMN_ADDRESSID = "_id";
+    public static final String COLUMN_GENREID = "_id";
+    public static final String COLUMN_GENRENME = "genreName";
+
+    //DB NAME
+    public static final String DATABASE_NAME = "goudanough.db";
+    //DB Version, for when onUpdate is called.
+    public static final int DATABASE_VERSION = 1;
+
 
     /**
      * Constructor
