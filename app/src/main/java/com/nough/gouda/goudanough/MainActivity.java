@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +29,12 @@ public class MainActivity extends AppCompatActivity  {
         RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
 
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this,"String", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
