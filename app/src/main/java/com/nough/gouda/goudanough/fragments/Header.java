@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.RestaurantInfo;
 
 import android.view.View.OnClickListener;
 /**
@@ -78,7 +79,12 @@ public class Header extends Fragment  {
         logo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("test");
+
+                RestaurantInfo r = new RestaurantInfo();
+                r.downloadJsonData();
+                System.out.println(r.test + "test");
+
+
             }
         });
 

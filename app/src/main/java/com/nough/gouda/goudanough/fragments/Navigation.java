@@ -7,13 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.nough.gouda.goudanough.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Navigation.OnFragmentInteractionListener} interface
+ * {@link //Navigation.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Navigation#newInstance} factory method to
  * create an instance of this fragment.
@@ -67,9 +68,35 @@ public class Navigation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        //add click events to all 5 buttons
+        createClickEvent(R.id.nav_favourites,view);
+        createClickEvent(R.id.nav_add_restaurant,view);
+        createClickEvent(R.id.nav_find,view);
+        createClickEvent(R.id.nav_nearby,view);
+        createClickEvent(R.id.nav_tip_calculator,view);
+
+        return view;
+
+
+
     }
-/*
+
+    private void createClickEvent(int id,View view){
+        ImageButton fav = (ImageButton)view.findViewById(id);
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("test");
+            }
+        });
+    }
+
+
+
+    /*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
