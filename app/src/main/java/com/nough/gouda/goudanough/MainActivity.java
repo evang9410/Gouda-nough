@@ -28,12 +28,15 @@ public class MainActivity extends AppCompatActivity  {
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        Fragment header = new Header();
-        Fragment nav = new Navigation();
+        Header header = new Header();
+        Navigation nav = new Navigation();
         RestaurantListView list = new RestaurantListView();
         
         ListView lv = list.getListView();
-        ft.add(R.id.mainLayout,header).add(nav,"").add(list,"restaurant_listview").commit();
+        ft.add(R.id.mainLayout,header, "xyz");
+        ft.add(R.id.mainLayout,nav,"navigation_menu");
+        ft.add(R.id.mainLayout, list, "list_view");
+        ft.commit();
 
 
         // Test dataset for the list view adapter
