@@ -60,11 +60,17 @@ public class RestaurantListView extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
-        lv = getListView();
-
-
+        lv = (ListView)view.findViewById(R.id.restaurant_list);
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(RESTO_TAG, "long click");
+                return false;
+            }
+        });
         return view;
     }
 

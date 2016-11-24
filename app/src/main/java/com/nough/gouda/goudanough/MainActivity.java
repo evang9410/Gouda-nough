@@ -32,21 +32,11 @@ public class MainActivity extends AppCompatActivity  {
         Navigation nav = new Navigation();
         RestaurantListView list = new RestaurantListView();
         
-        ListView lv = list.getListView();
+
         ft.add(R.id.mainLayout,header, "xyz");
         ft.add(R.id.mainLayout,nav,"navigation_menu");
         ft.add(R.id.mainLayout, list, "list_view");
         ft.commit();
-        // set up a long click listener for the listview
-        // launches the implicit intent to call the restaurant using the phones telephony.
-//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                // call the intent
-//                Log.d("TAg","on long click");
-//                return true;
-//            }
-//        });
 
 
         // Dummy dataset for the list view adapter
