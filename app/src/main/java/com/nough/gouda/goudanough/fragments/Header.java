@@ -66,7 +66,6 @@ public class Header extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
 
-
     }
 
     @Override
@@ -86,15 +85,10 @@ public class Header extends Fragment {
 
 
 
+
       //  return inflater.inflate(R.layout.fragment_header, container, false);
     return view;
     }
-
-
-
-
-
-
 
 /*
     // TODO: Rename method, update argument and hook method into UI event

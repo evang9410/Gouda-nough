@@ -5,9 +5,11 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nough.gouda.goudanough.R;
@@ -30,6 +32,7 @@ import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 public class RestaurantListView extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String RESTO_TAG = "RestaurantListView Tag";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ListView lv;
@@ -61,13 +64,23 @@ public class RestaurantListView extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
         lv = getListView();
 
+
         return view;
     }
 
+    /**
+     * public method to set the adapter of the list view, to hand it a different dataset outside
+     * of the fragment's code.
+     * @param adapter
+     */
     public void setAdapter(RestaurantListViewAdapter adapter){
         setListAdapter(adapter);
     }
 
+    /**
+     * returns the list view view object to manipulate from the parent activity.
+     * @return
+     */
     public ListView getListView(){
         return lv;
     }
