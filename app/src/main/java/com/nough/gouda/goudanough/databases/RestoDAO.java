@@ -22,7 +22,6 @@ public class RestoDAO {
     public RestoDAO(Context context){
 
         database = new DBHelper(context);// creates a new instance to the database.
-
         restaurants = database.getRestaurants();
         users = database.getUsers();
         comments = database.getComments();

@@ -1,7 +1,5 @@
 package com.nough.gouda.goudanough.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nough.gouda.goudanough.R;
-import com.nough.gouda.goudanough.Restaurant;
 
 /**
  * A simple {@link Fragment} subclass.

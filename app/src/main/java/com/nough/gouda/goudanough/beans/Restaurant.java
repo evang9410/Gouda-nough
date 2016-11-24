@@ -1,4 +1,4 @@
-package com.nough.gouda.goudanough;
+package com.nough.gouda.goudanough.beans;
 
 
 /**

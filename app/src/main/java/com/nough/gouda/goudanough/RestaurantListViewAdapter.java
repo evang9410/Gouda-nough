@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nough.gouda.goudanough.beans.Restaurant;
+
 /**
  * Created by 1432581 on 11/23/2016.
  */

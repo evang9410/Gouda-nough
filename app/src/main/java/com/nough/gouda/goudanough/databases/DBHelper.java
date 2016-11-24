@@ -32,7 +32,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NOTES = "notes";
     public static final String COLUMN_RESTO_USERID = "userID";
     public static final String COLUMN_LONG = "longitude";
-    public static final String COLUMN_LAT = "_latitude";
+    public static final String COLUMN_LAT = "latitude";
+    public static final String COLUMN_IMG = "image";
+    public static final String COLUMN_URL = "url";
     //COMMENT TABLE
     public static final String COLUMN_COMMENTID = "_id";
     public static final String COLUMN_TITLE = "title";
@@ -84,6 +86,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RESTO_USERID + " integer, "
             + COLUMN_LONG + " integer, "
             + COLUMN_LAT + " integer, "
+            + COLUMN_IMG + "blob, "
+            + COLUMN_URL + "text, "
             + FK_RESTO_USER
             +");";
 
@@ -189,7 +193,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return the number of rows affected.
      */
     public long insertNewResto(String name, String price, String rating,
-                               String notes, int userID, int longitude, int latitude)
+                               String notes, int userID, int longitude,
+                               int latitude, byte[] img, String url)
     {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_RESTO_NAME,name);
@@ -199,6 +204,8 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_RESTO_USERID,userID);
         cv.put(COLUMN_LONG,longitude);
         cv.put(COLUMN_LAT,latitude);
+        cv.put(COLUMN_IMG,img);
+        cv.put(COLUMN_URL, url);
 
         return getWritableDatabase().insert(TABLE_RESTAURANT, null, cv);
 
@@ -292,7 +299,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the restaurants in the database.
      * @return
      */
-    public Cursor getRestaurants(){
+    public Cursor geAllRestaurants(){
         return getReadableDatabase().query(TABLE_RESTAURANT, null, null, null,
                 null,null,null);
     }
@@ -301,7 +308,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the users in the database.
      * @return
      */
-    public Cursor getUsers(){
+    public Cursor getAllUsers(){
         return getReadableDatabase().query(TABLE_USERS, null, null, null,
                 null,null,null);
     }
@@ -310,7 +317,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all comments in the database.
      * @return
      */
-    public Cursor getComments(){
+    public Cursor getAllComments(){
         return getReadableDatabase().query(TABLE_COMMENTS, null, null, null,
                 null,null,null);
     }
@@ -319,7 +326,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the genres in the database.
      * @return
      */
-    public Cursor getGenre(){
+    public Cursor getAllGenres(){
         return getReadableDatabase().query(TABLE_GENRE, null, null, null,
                 null,null,null);
     }
@@ -328,9 +335,17 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the addresses in the database.
      * @return
      */
-    public Cursor getAddresses(){
+    public Cursor getAllAddresses(){
         return getReadableDatabase().query(TABLE_ADDRESS, null, null, null,
                 null,null,null);
+    }
+
+    /**
+     * This method will get all the comments based on the user ID
+     * @return
+     */
+    public void getCommentsByUserId(int userID){
+
     }
 
 
