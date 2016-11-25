@@ -1,18 +1,22 @@
 package com.nough.gouda.goudanough.fragments;
 
-
 import android.app.Fragment;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.nough.gouda.goudanough.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Navigation.OnFragmentInteractionListener} interface
+ * {@link //Navigation.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Navigation#newInstance} factory method to
  * create an instance of this fragment.
@@ -22,12 +26,13 @@ public class Navigation extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "Navigation Fragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-   // private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     public Navigation() {
         // Required empty public constructor
@@ -45,6 +50,7 @@ public class Navigation extends Fragment {
     public static Navigation newInstance(String param1, String param2) {
         Navigation fragment = new Navigation();
         Bundle args = new Bundle();
+
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -66,9 +72,53 @@ public class Navigation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        //add click events to all 5 buttons
+        createClickEvent(R.id.nav_favourites,view);
+        createClickEvent(R.id.nav_add_restaurant,view);
+        createClickEvent(R.id.nav_find,view);
+        createClickEvent(R.id.nav_nearby,view);
+        createClickEvent(R.id.nav_tip_calculator,view);
+
+        return view;
     }
-/*
+
+    private void createClickEvent(int id,View view){
+        ImageButton ib = (ImageButton)view.findViewById(id);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch(view.getId()){
+                    case R.id.nav_favourites:
+                        // fill favourites array.
+                        Log.d(TAG,"Favourites clicked");
+                        break;
+                    case R.id.nav_add_restaurant:
+                        // launch the add resto activity
+                        Log.d(TAG,"Add restaurant");
+                        break;
+                    case R.id.nav_find:
+                        // launch the find activity, or update view
+                        Log.d(TAG,"find called");
+                        break;
+                    case R.id.nav_nearby:
+                        // show the nearby restaurants
+                        Log.d(TAG,"nearby called");
+                        break;
+                    case R.id.nav_tip_calculator:
+                        Log.d(TAG, "tip caluulator selected");
+                        // launch tip activity
+                        break;
+                }
+            }
+        });
+    }
+
+
+
+    /*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

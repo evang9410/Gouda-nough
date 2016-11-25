@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity  {
 
         // Dummy dataset for the list view adapter
         Restaurant[] rs = new Restaurant[2];
-        rs[0] = new Restaurant("My resto", "https://google.com", "food",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-        rs[1] = new Restaurant("My resto2", "https://google.com", "food",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        rs[0] = new Restaurant("My resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        rs[1] = new Restaurant("My resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
         RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
 
         list.setAdapter(adapter);

@@ -8,19 +8,29 @@ public class Restaurant {
     private String name;
     private String url;
     private String cuisine;
+    private String phone_numbers;
     private int price_range;
     private double latitude;
     private double longitude;
     private String featured_image;
 
-    public Restaurant(String name, String url, String cuisine, int price_range, double latitude, double longitude, String img_src){
+    public Restaurant(String name, String url, String cuisine,String phone_numbers, int price_range, double latitude, double longitude, String img_src){
         this.name = name;
         this.url = url;
         this.cuisine = cuisine;
+        this.phone_numbers = phone_numbers;
         this.price_range = price_range;
         this.latitude = latitude;
         this.longitude = longitude;
         this.featured_image = img_src;
+    }
+
+    public String getPhone_numbers() {
+        return phone_numbers;
+    }
+
+    public void setPhone_numbers(String phone_numbers) {
+        this.phone_numbers = phone_numbers;
     }
 
     public String getName() {
