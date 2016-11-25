@@ -2,6 +2,7 @@ package com.nough.gouda.goudanough.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.Restaurant;
+import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +31,8 @@ public class Navigation extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "Navigation Fragment";
+    private Restaurant[] favourites;
+    private ImageButton[] nav_buttons = new ImageButton[6];
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,7 +92,18 @@ public class Navigation extends Fragment {
         return view;
     }
 
-    private void createClickEvent(int id,View view){
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        nav_buttons[0] = (ImageButton)getView().findViewById(R.id.nav_favourites);
+        Log.d(TAG,nav_buttons[0].toString());
+    }
+
+    public ImageButton[] getButtons(){
+        return nav_buttons;
+    }
+
+    private void createClickEvent(int id, View view){
         ImageButton ib = (ImageButton)view.findViewById(id);
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +111,10 @@ public class Navigation extends Fragment {
                 switch(view.getId()){
                     case R.id.nav_favourites:
                         // fill favourites array.
+                        Restaurant[] rs = new Restaurant[2];
+                        rs[0] = new Restaurant("My fav resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+                        rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+                        favourites = rs;
                         Log.d(TAG,"Favourites clicked");
                         break;
                     case R.id.nav_add_restaurant:
@@ -117,6 +138,9 @@ public class Navigation extends Fragment {
         });
     }
 
+    public Restaurant[] getFavourites(){
+        return favourites;
+    }
 
 
     /*

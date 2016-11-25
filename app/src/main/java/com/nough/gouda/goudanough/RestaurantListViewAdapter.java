@@ -57,4 +57,9 @@ public class RestaurantListViewAdapter extends ArrayAdapter<Restaurant> {
 
         return row;
     }
+
+    public void setDataset(Restaurant[] rs){
+        this.data = rs;
+        notifyDataSetChanged();
+    }
 }

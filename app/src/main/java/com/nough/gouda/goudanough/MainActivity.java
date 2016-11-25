@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity  {
         RestaurantListView list = new RestaurantListView();
         
         // add the fragments to the linear layout
-        ft.add(R.id.mainLayout,header, "xyz");
+        ft.add(R.id.mainLayout,header, "header");
         ft.add(R.id.mainLayout,nav,"navigation_menu");
         ft.add(R.id.mainLayout, list, "list_view");
         ft.commit();
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
         Restaurant[] rs = new Restaurant[2];
         rs[0] = new Restaurant("My resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
         rs[1] = new Restaurant("My resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-        RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
+        RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,nav.getFavourites());
 
         list.setAdapter(adapter);
     }
