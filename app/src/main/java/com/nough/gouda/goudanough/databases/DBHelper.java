@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.database.Cursor;
 
+import com.nough.gouda.goudanough.beans.Comment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class has the purpose of dealing
  * with all the CRUD operations involving our database.
@@ -344,8 +349,30 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will get all the comments based on the user ID
      * @return
      */
-    public void getCommentsByUserId(int userID){
+    public List<Comment> getCommentsByUserId(int userID){
+        
+        List<Comment> listOfComments = new ArrayList<>();
+        Comment comment = new Comment();
+        String[] tableColumns = new String[]{COLUMN_TITLE,COLUMN_COMM_RATING,COLUMN_CONTENT};
+        String whereClause = COLUMN_USERID + " = ?";
+        String[] whereArgs = new String[]{userID+""};
 
+        Cursor c = getReadableDatabase().query(TABLE_COMMENTS,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    comment.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+                    comment.setContent(c.getString(c.getColumnIndex(COLUMN_CONTENT)));
+                    comment.setRating(c.getString(c.getColumnIndex(COLUMN_COMM_RATING)));
+
+                    listOfComments.add(comment);
+                    comment = new Comment();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfComments;// return the list.
     }
 
 
