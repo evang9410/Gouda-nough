@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nough.gouda.goudanough.GoudaNoughAlertDialog;
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
@@ -93,6 +94,11 @@ public class RestaurantListView extends ListFragment {
                     startActivity(intent);
                 }else{
                     Log.i(RESTO_TAG,"No telephone service enabled.");
+                    GoudaNoughAlertDialog alert = new GoudaNoughAlertDialog();
+                    Bundle b = new Bundle();
+                    b.putString("header","WOAH THERE");
+                    alert.setArguments(b);
+                    alert.show(getFragmentManager(),"Dialog");
                 }
 
                 return false;

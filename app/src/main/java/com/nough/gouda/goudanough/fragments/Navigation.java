@@ -116,6 +116,9 @@ public class Navigation extends Fragment {
                         rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
                         favourites = rs;
                         Log.d(TAG,"Favourites clicked");
+                        // get a handle to the adapter to update the listview in the main activity.
+                        RestaurantListViewAdapter adapter = ((MainActivity)getActivity()).getRestaurantAdapter();
+                        adapter.setDataset(rs);
                         break;
                     case R.id.nav_add_restaurant:
                         // launch the add resto activity
