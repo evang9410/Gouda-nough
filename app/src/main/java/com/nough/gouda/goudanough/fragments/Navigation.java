@@ -82,6 +82,7 @@ public class Navigation extends Fragment {
         createClickEvent(R.id.nav_nearby,view);
         createClickEvent(R.id.nav_tip_calculator,view);
 
+
         return view;
     }
 

@@ -28,16 +28,17 @@ public class MainActivity extends AppCompatActivity  {
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
+
+        // create the fragments to be used in this layout
         Header header = new Header();
         Navigation nav = new Navigation();
         RestaurantListView list = new RestaurantListView();
         
-
+        // add the fragments to the linear layout
         ft.add(R.id.mainLayout,header, "xyz");
         ft.add(R.id.mainLayout,nav,"navigation_menu");
         ft.add(R.id.mainLayout, list, "list_view");
         ft.commit();
-
 
         // Dummy dataset for the list view adapter
         Restaurant[] rs = new Restaurant[2];
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity  {
         RestaurantListViewAdapter adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
 
         list.setAdapter(adapter);
-
     }
 
 
