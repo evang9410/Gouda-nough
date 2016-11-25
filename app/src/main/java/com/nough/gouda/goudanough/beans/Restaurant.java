@@ -1,26 +1,51 @@
 package com.nough.gouda.goudanough.beans;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 1133611 on 11/21/2016.
  */
 public class Restaurant {
     private String name;
     private String url;
-    private String cuisine;
+    private String notes;
     private int price_range;
     private double latitude;
     private double longitude;
-    private String featured_image;
+    private String img;
+    private List<Comment> comments;
+    private Address address;
+    private String genre;
 
-    public Restaurant(String name, String url, String cuisine, int price_range, double latitude, double longitude, String img_src){
+    public Restaurant(){
+        super();
+        name = "";
+        url = "";
+        notes = "";
+        price_range = 0;
+        latitude = 0.0;
+        longitude = 0.0;
+        img = "";
+        genre = "";
+        comments = new ArrayList<>();
+        address = new Address();
+    }
+
+    public Restaurant(String name, String url, String notes,
+                      int price_range, double latitude, double longitude,
+                      String img_src,String genre, List<Comment> comments, Address address){
         this.name = name;
         this.url = url;
-        this.cuisine = cuisine;
+        this.notes = notes;
         this.price_range = price_range;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.featured_image = img_src;
+        this.img = img_src;
+        this.comments = comments;
+        this.address = address;
+        this.genre = genre;
     }
 
     public String getName() {
@@ -39,12 +64,12 @@ public class Restaurant {
         this.url = url;
     }
 
-    public String getCuisine() {
-        return cuisine;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public int getPrice_range() {
@@ -71,11 +96,34 @@ public class Restaurant {
         this.longitude = longitude;
     }
 
-    public String getFeatured_image() {
-        return featured_image;
+    public String getImg() {
+        return img;
     }
 
-    public void setFeatured_image(String featured_image) {
-        this.featured_image = featured_image;
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

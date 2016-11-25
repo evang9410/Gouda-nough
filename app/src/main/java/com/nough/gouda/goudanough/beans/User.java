@@ -1,5 +1,7 @@
 package com.nough.gouda.goudanough.beans;
 
+import java.util.List;
+
 /**
  * Created by 1333612 on 11/24/2016.
  */
@@ -10,7 +12,11 @@ public class User {
     private String pass;
     private String email;
     private String postalCode;
+    private List<Comment> comments;
 
+    /**
+     * Default Constructor
+     */
     public User(){
         super();
     }
@@ -20,6 +26,7 @@ public class User {
         this.pass = pass;
         this.email = email;
         this.postalCode = postalCode;
+
     }
 
     public String getName() {
@@ -38,6 +45,10 @@ public class User {
         return postalCode;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -53,9 +64,21 @@ public class User {
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString()
     {
-        return "";
+        String returnObj = "";
+        returnObj += "user : {\n";
+        returnObj += "name : " +name + ",\n";
+        returnObj += "pass : " +pass + ",\n";
+        returnObj += "email : " +email + ",\n";
+        returnObj += "postalCode : " +postalCode + "\n";
+        returnObj += "}";
+        return returnObj;
     }
 }

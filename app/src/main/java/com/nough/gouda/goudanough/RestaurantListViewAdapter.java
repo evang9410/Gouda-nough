@@ -48,7 +48,7 @@ public class RestaurantListViewAdapter extends ArrayAdapter<Restaurant> {
             holder = (ViewHolder)row.getTag();
         }
         Restaurant restaurant = data[position];
-        Uri img_src = Uri.parse(restaurant.getFeatured_image());
+        Uri img_src = Uri.parse(restaurant.getImg());
         holder.img.setImageURI(img_src);
         holder.tv.setText(restaurant.getName());
 
