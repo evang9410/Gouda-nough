@@ -22,54 +22,35 @@ import com.nough.gouda.goudanough.RestaurantListViewAdapter;
  * Activities that contain this fragment must implement the
  * {@link //Navigation.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Navigation#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class Navigation extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "Navigation Fragment";
     private Restaurant[] favourites;
     private ImageButton[] nav_buttons = new ImageButton[6];
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // interface object for communicating with parent activity.
+    private OnNavigationListener mListener;
 
-    // private OnFragmentInteractionListener mListener;
+    /**
+     * Interface used to communicate with the parent activity.
+     */
+    public interface OnNavigationListener{
+        void setFavourites(Restaurant[] favourite_restaurants);
+    }
 
     public Navigation() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Navigation.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Navigation newInstance(String param1, String param2) {
-        Navigation fragment = new Navigation();
-        Bundle args = new Bundle();
-
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//
+//        }
 
 
     }
@@ -90,6 +71,19 @@ public class Navigation extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener = (OnNavigationListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     @Override
@@ -117,8 +111,9 @@ public class Navigation extends Fragment {
                         favourites = rs;
                         Log.d(TAG,"Favourites clicked");
                         // get a handle to the adapter to update the listview in the main activity.
-                        RestaurantListViewAdapter adapter = ((MainActivity)getActivity()).getRestaurantAdapter();
-                        adapter.setDataset(rs);
+                        //RestaurantListViewAdapter adapter = ((MainActivity)getActivity()).getRestaurantAdapter();
+                        //adapter.setDataset(rs);
+                        mListener.setFavourites(rs);
                         break;
                     case R.id.nav_add_restaurant:
                         // launch the add resto activity
@@ -144,6 +139,8 @@ public class Navigation extends Fragment {
     public Restaurant[] getFavourites(){
         return favourites;
     }
+
+
 
 
     /*

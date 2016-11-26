@@ -20,9 +20,15 @@ import com.nough.gouda.goudanough.fragments.Header;
 import com.nough.gouda.goudanough.fragments.Navigation;
 import com.nough.gouda.goudanough.fragments.RestaurantListView;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements Navigation.OnNavigationListener  {
     private static final String TAG = "Main Activity";
     private RestaurantListViewAdapter adapter;
+    private Restaurant[] favourite_restaurants;
+    // Fragment objects. Should be better named tbh.
+    private Header header;
+    private Navigation nav;
+    private RestaurantListView list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +39,9 @@ public class MainActivity extends AppCompatActivity  {
         FragmentTransaction ft = manager.beginTransaction();
 
         // create the fragments to be used in this layout
-        Header header = new Header();
-        Navigation nav = new Navigation();
-        RestaurantListView list = new RestaurantListView();
+        header = new Header();
+        nav = new Navigation();
+        list = new RestaurantListView();
         if(savedInstanceState == null){
             // add the fragments to the linear layout
             ft.add(R.id.mainLayout,header, "header");
@@ -105,4 +111,9 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
+    @Override
+    public void setFavourites(Restaurant[] favourite_restaurants) {
+        this.favourite_restaurants = favourite_restaurants;
+        adapter.setDataset(favourite_restaurants);
+    }
 }
