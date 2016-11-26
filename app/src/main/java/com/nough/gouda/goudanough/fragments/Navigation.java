@@ -29,6 +29,7 @@ public class Navigation extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = "Navigation Fragment";
     private Restaurant[] favourites;
+    private Restaurant[] nearby_restaurants;
     private ImageButton[] nav_buttons = new ImageButton[6];
 
     // interface object for communicating with parent activity.
@@ -36,6 +37,7 @@ public class Navigation extends Fragment {
 
     /**
      * Interface used to communicate with the parent activity.
+     * TODO: add methods to the interface that pass required data to the parent activity.
      */
     public interface OnNavigationListener{
         void setFavourites(Restaurant[] favourite_restaurants);
@@ -93,10 +95,6 @@ public class Navigation extends Fragment {
         Log.d(TAG,nav_buttons[0].toString());
     }
 
-    public ImageButton[] getButtons(){
-        return nav_buttons;
-    }
-
     private void createClickEvent(int id, View view){
         ImageButton ib = (ImageButton)view.findViewById(id);
         ib.setOnClickListener(new View.OnClickListener() {
@@ -110,9 +108,7 @@ public class Navigation extends Fragment {
                         rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
                         favourites = rs;
                         Log.d(TAG,"Favourites clicked");
-                        // get a handle to the adapter to update the listview in the main activity.
-                        //RestaurantListViewAdapter adapter = ((MainActivity)getActivity()).getRestaurantAdapter();
-                        //adapter.setDataset(rs);
+                        // pass the favourites array to the parent activity via the interface.
                         mListener.setFavourites(rs);
                         break;
                     case R.id.nav_add_restaurant:
@@ -135,13 +131,6 @@ public class Navigation extends Fragment {
             }
         });
     }
-
-    public Restaurant[] getFavourites(){
-        return favourites;
-    }
-
-
-
 
     /*
     // TODO: Rename method, update argument and hook method into UI event
