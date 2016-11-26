@@ -2,12 +2,15 @@ package com.nough.gouda.goudanough.databases;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.database.Cursor;
 
+import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Comment;
+import com.nough.gouda.goudanough.beans.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //DB Version, for when onUpdate is called.
     public static final int DATABASE_VERSION = 1;
 
-    private static final DBHelper dbh = null;
+    private static DBHelper dbh = null;
     //Database creation raw SQL statement
     private static final String DATABASE_CREATE_RESTAURANT = "create table " + TABLE_RESTAURANT
             + "( "
@@ -91,8 +94,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RESTO_USERID + " integer, "
             + COLUMN_LONG + " integer, "
             + COLUMN_LAT + " integer, "
-            + COLUMN_IMG + "blob, "
-            + COLUMN_URL + "text, "
+            + COLUMN_IMG + " blob, "
+            + COLUMN_URL + " text, "
             + FK_RESTO_USER
             +");";
 
@@ -132,7 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_STREETNUMBER + " text, "
             + COLUMN_CITY + " text, "
             + COLUMN_POSTALCODE + " text, "
-            + COLUMN_ADDR_RESTOID + "integer, "
+            + COLUMN_ADDR_RESTOID + " integer, "
             + FK_ADDR_RESTO
             +");";
 
@@ -142,7 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param context
      */
-    public DBHelper(Context context){
+    private DBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -151,7 +154,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param database
      */
     @Override
-    public void onCreate(SQLiteDatabase database) {
+    public void onCreate(SQLiteDatabase database) throws SQLException{
 
         database.execSQL(DATABASE_CREATE_RESTAURANT);
         Log.i(TAG, "CREATE RESTO TBL");
@@ -167,7 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion)throws SQLException{
         Log.w(TAG, DBHelper.class.getName() + "Upgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
@@ -286,7 +289,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param postalCode
      * @return the number of rows affected.
      */
-    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode, String restoID){
+    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode, int restoID){
 
         ContentValues cv = new ContentValues();
 
@@ -313,9 +316,29 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the users in the database.
      * @return
      */
-    public Cursor getAllUsers(){
-        return getReadableDatabase().query(TABLE_USERS, null, null, null,
-                null,null,null);
+    public List<User> getAllUsers(){
+        List<User> listOfUsers = new ArrayList<>();
+        User user = new User();
+        String[] tableColumns = new String[]{COLUMN_USERID,COLUMN_NAME,COLUMN_USER_POSTALCODE,COLUMN_PASS,COLUMN_EMAIL};
+
+        Cursor c = getReadableDatabase().query(TABLE_COMMENTS,tableColumns,null, null, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    user.setId(c.getInt(c.getColumnIndex(COLUMN_USERID)));
+                    user.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+                    user.setEmail(c.getString(c.getColumnIndex(COLUMN_EMAIL)));
+                    user.setPass(c.getString(c.getColumnIndex(COLUMN_PASS)));
+                    user.setPostalCode(c.getString(c.getColumnIndex(COLUMN_USER_POSTALCODE)));
+
+                    listOfUsers.add(user);
+                    user = new User();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfUsers;
     }
 
     /**
@@ -381,7 +404,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public List<Comment> getCommentsByResto(int restoID){
-        
+
         List<Comment> listOfComments = new ArrayList<>();
         Comment comment = new Comment();
         String[] tableColumns = new String[]{COLUMN_TITLE,COLUMN_COMM_RATING,COLUMN_CONTENT};
@@ -404,5 +427,20 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return listOfComments;// return the list.
+    }
+
+    public static DBHelper getDBHelper(Context context){
+            dbh = new DBHelper(context.getApplicationContext());
+        return dbh;
+    }
+
+    /**
+     * This method will get an adrress from a particular resto.
+     * @param restoID
+     * @return
+     */
+    public Address getAddressByRestoID(int restoID){
+        //todo
+        return null;
     }
 }

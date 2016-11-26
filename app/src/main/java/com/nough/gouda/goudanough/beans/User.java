@@ -8,6 +8,7 @@ import java.util.List;
 
 public class User {
 
+    private int id;
     private String name;
     private String pass;
     private String email;
@@ -21,12 +22,17 @@ public class User {
         super();
     }
 
-    public User(String name, String pass, String email, String postalCode) {
+    public User(int id, String name, String pass, String email, String postalCode) {
+        this.id = id;
         this.name = name;
         this.pass = pass;
         this.email = email;
         this.postalCode = postalCode;
 
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -47,6 +53,10 @@ public class User {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -74,6 +84,7 @@ public class User {
     {
         String returnObj = "";
         returnObj += "user : {\n";
+        returnObj += "id : " +id + ",\n";
         returnObj += "name : " +name + ",\n";
         returnObj += "pass : " +pass + ",\n";
         returnObj += "email : " +email + ",\n";
