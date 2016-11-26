@@ -71,7 +71,7 @@ public class Header extends Fragment  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_header, container, false);
         ImageButton logo = (ImageButton)view.findViewById(R.id.header_logo);
@@ -79,11 +79,6 @@ public class Header extends Fragment  {
         logo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                RestaurantInfo r = new RestaurantInfo();
-                r.downloadJsonData();
-                System.out.println(r.test + "test");
-
 
             }
         });

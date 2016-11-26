@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 
 import java.io.BufferedInputStream;
@@ -22,31 +23,28 @@ import java.net.URL;
  */
 public class RestaurantInfo extends Activity {
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     //Restaurant restaurentInfo[] =9;
     // public String response = downloadJsonData();
-   public String test = "";
+    public String test = "";
 
     public String downloadJsonData() {
         // Gets the URL from the UI's text field.
         String stringUrl = "www.google.com";
         stringUrl = "http://" + stringUrl;
 
-        // first check to see if we can get on the network
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // invoke the AsyncTask to do the dirtywork.
-             new DownloadWebpageText().execute(stringUrl);
-            // text is set in DownloadWebpageText().onPostExecute()
-        } else {
-            return "No network connection available.";
-        }
+        new DownloadWebpageText().execute(stringUrl);
+        // text is set in DownloadWebpageText().onPostExecute()
         return "";
     }
 
 
     public class DownloadWebpageText extends AsyncTask<String, Void, String> {
-
 
         protected void onPostExecute(String result) {
 
@@ -100,7 +98,7 @@ public class RestaurantInfo extends Activity {
 
                 throw e;
             } finally {
-			/*
+            /*
 			 * Make sure that the InputStream is closed after the app is
 			 * finished using it.
 			 * Make sure the connection is closed after the app is finished using it.
@@ -143,11 +141,6 @@ public class RestaurantInfo extends Activity {
         } // readIt()
 
     }
-
-
-
-
-
 
 
 } // myClickHandler()

@@ -1,15 +1,22 @@
 package com.nough.gouda.goudanough.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.RestaurantInfo;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +36,7 @@ public class Navigation extends Fragment {
     private String mParam1;
     private String mParam2;
 
-   // private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     public Navigation() {
         // Required empty public constructor
@@ -72,28 +79,69 @@ public class Navigation extends Fragment {
         View view = inflater.inflate(R.layout.fragment_navigation, container, false);
 
         //add click events to all 5 buttons
-        createClickEvent(R.id.nav_favourites,view);
-        createClickEvent(R.id.nav_add_restaurant,view);
-        createClickEvent(R.id.nav_find,view);
-        createClickEvent(R.id.nav_nearby,view);
-        createClickEvent(R.id.nav_tip_calculator,view);
+        createClickEvent(R.id.nav_favourites, view);
+        createClickEvent(R.id.nav_add_restaurant, view);
+        createClickEvent(R.id.nav_find, view);
+        createClickEvent(R.id.nav_nearby, view);
+        createClickEvent(R.id.nav_tip_calculator, view);
 
         return view;
 
 
-
     }
 
-    private void createClickEvent(int id,View view){
-        ImageButton fav = (ImageButton)view.findViewById(id);
+    private void createClickEvent(int id, View view) {
+        ImageButton fav = (ImageButton) view.findViewById(id);
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("test");
+              checkStatus();
             }
         });
     }
 
+    private void checkStatus() {
+        NetworkInfo networkInfo;
+
+        Context context = getContext();
+        boolean networkIsUp = false;
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // getActiveNetworkInfo() each time as the network may swap as the
+        // device moves
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
+            // ALWAYS check isConnected() before initiating network traffic
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                //  tv2.setText("Network is connected or connecting");
+                networkIsUp = true;
+            } else {
+                // tv2.setText("No network connectivity");
+                networkIsUp = false;
+            }
+        } else {
+            //  tv2.setText("No network manager service");
+            networkIsUp = false;
+        }
+
+        if(networkIsUp= false){
+            System.out.println("false");
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("No network connectivity")
+                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+            // Create the AlertDialog object
+             builder.create().show();
+        }
+        else{
+           //if network is conneced
+            RestaurantInfo info = new RestaurantInfo();
+            info.downloadJsonData();
+        }
+    }
 
 
     /*
