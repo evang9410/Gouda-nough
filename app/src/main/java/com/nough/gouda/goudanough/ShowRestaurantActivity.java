@@ -67,7 +67,7 @@ public class ShowRestaurantActivity extends AppCompatActivity implements Restaur
         name.setText(restaurant.getName());
         cuisine.setText(cuisine.getText() + ": " + restaurant.getCuisine());
         // check price range and set appropriate dollar signs for it.
-        price_range.setText(String.valueOf(restaurant.getPrice_range()));
+        price_range.setText(convertPriceRangeToDollarSigns(restaurant.getPrice_range()));
         url.setText(restaurant.getUrl());
         telephone.setText(restaurant.getPhone_numbers());
     }
@@ -76,6 +76,14 @@ public class ShowRestaurantActivity extends AppCompatActivity implements Restaur
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
        // Log.d(TAG, restaurant.getName());
+    }
+
+    private String convertPriceRangeToDollarSigns(int price){
+        StringBuilder s = new StringBuilder();
+        for(int i = 0; i < price; i++){
+            s.append('$');
+        }
+        return s.toString();
     }
 
 
