@@ -6,6 +6,7 @@ package com.nough.gouda.goudanough.beans;
 
 public class Address {
 
+    private int id;
     private String streetName;
     private String streetNumber;
     private String city;
@@ -19,7 +20,8 @@ public class Address {
         postalCode = "";
     }
 
-    public Address(String streetName, String streetNumber, String city, String postalCode) {
+    public Address(int id, String streetName, String streetNumber, String city, String postalCode) {
+        this.id = id;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.city = city;
@@ -28,6 +30,10 @@ public class Address {
 
     public String getStreetName() {
         return streetName;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getStreetNumber() {
@@ -46,6 +52,10 @@ public class Address {
         this.streetName = streetName;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
@@ -61,6 +71,7 @@ public class Address {
     @Override
     public String toString(){
         String returnObj = "address : {\n";
+        returnObj += "id : " + id +",\n";
         returnObj += "streetName : " + streetName +",\n";
         returnObj += "streetNumber : " + streetNumber +",\n";
         returnObj += "city : " + city +",\n";

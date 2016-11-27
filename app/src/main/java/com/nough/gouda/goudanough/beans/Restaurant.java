@@ -8,10 +8,11 @@ import java.util.List;
  * Created by 1133611 on 11/21/2016.
  */
 public class Restaurant {
+    int id;
     private String name;
     private String url;
     private String notes;
-    private int price_range;
+    private String price_range;
     private double latitude;
     private double longitude;
     private String img;
@@ -21,10 +22,11 @@ public class Restaurant {
 
     public Restaurant(){
         super();
+        id = 0;
         name = "";
         url = "";
         notes = "";
-        price_range = 0;
+        price_range = "";
         latitude = 0.0;
         longitude = 0.0;
         img = "";
@@ -33,9 +35,10 @@ public class Restaurant {
         address = new Address();
     }
 
-    public Restaurant(String name, String url, String notes,
-                      int price_range, double latitude, double longitude,
+    public Restaurant(int id, String name, String url, String notes,
+                      String price_range, double latitude, double longitude,
                       String img_src,String genre, List<Comment> comments, Address address){
+        this.id = id;
         this.name = name;
         this.url = url;
         this.notes = notes;
@@ -46,6 +49,14 @@ public class Restaurant {
         this.comments = comments;
         this.address = address;
         this.genre = genre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -72,11 +83,11 @@ public class Restaurant {
         this.notes = notes;
     }
 
-    public int getPrice_range() {
+    public String getPrice_range() {
         return price_range;
     }
 
-    public void setPrice_range(int price_range) {
+    public void setPrice_range(String price_range) {
         this.price_range = price_range;
     }
 

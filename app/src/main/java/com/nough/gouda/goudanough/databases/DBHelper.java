@@ -10,6 +10,7 @@ import android.database.Cursor;
 
 import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Comment;
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.beans.User;
 
 import java.util.ArrayList;
@@ -92,8 +93,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RATING + " text, "
             + COLUMN_NOTES + " text, "
             + COLUMN_RESTO_USERID + " integer, "
-            + COLUMN_LONG + " integer, "
-            + COLUMN_LAT + " integer, "
+            + COLUMN_LONG + " real, "
+            + COLUMN_LAT + " real, "
             + COLUMN_IMG + " blob, "
             + COLUMN_URL + " text, "
             + FK_RESTO_USER
@@ -201,8 +202,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return the number of rows affected.
      */
     public long insertNewResto(String name, String price, String rating,
-                               String notes, int userID, int longitude,
-                               int latitude, byte[] img, String url)
+                               String notes, int userID, double longitude,
+                               double latitude, byte[] img, String url)
     {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_RESTO_NAME,name);
@@ -305,11 +306,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * This method will return all the restaurants in the database.
+     * P.S. This list doesnt have the addresses and other stuff.. must complete it with other methdos
      * @return
      */
-    public Cursor geAllRestaurants(){
-        return getReadableDatabase().query(TABLE_RESTAURANT, null, null, null,
-                null,null,null);
+    public List<Restaurant> getAllRestaurants(){
+
+        List<Restaurant> restaurants = new ArrayList<>();
+        Restaurant resto = new Restaurant();
+
+        Cursor c = getReadableDatabase().query(TABLE_RESTAURANT,null,null, null, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    resto.setId(c.getInt(c.getColumnIndex(COLUMN_RESTOID)));
+                    resto.setName(c.getString(c.getColumnIndex(COLUMN_RESTO_NAME)));
+                    resto.setLatitude(c.getDouble(c.getColumnIndex(COLUMN_LAT)));
+                    resto.setLongitude(c.getDouble(c.getColumnIndex(COLUMN_LONG)));
+                    resto.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
+                    resto.setPrice_range(c.getString(c.getColumnIndex(COLUMN_PRICERANGE)));
+                    resto.setUrl(c.getString(c.getColumnIndex(COLUMN_URL)));
+
+                    restaurants.add(resto);
+                    resto = new Restaurant();
+                }while(c.moveToNext());
+            }
+        }
+        return restaurants;
+
     }
 
     /**
@@ -319,9 +344,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<User> getAllUsers(){
         List<User> listOfUsers = new ArrayList<>();
         User user = new User();
-        String[] tableColumns = new String[]{COLUMN_USERID,COLUMN_NAME,COLUMN_USER_POSTALCODE,COLUMN_PASS,COLUMN_EMAIL};
 
-        Cursor c = getReadableDatabase().query(TABLE_COMMENTS,tableColumns,null, null, null,
+        Cursor c = getReadableDatabase().query(TABLE_USERS,null,null, null, null,
                 null,null);// query and get the results as a cursor.
         if(c != null){
             if(c.moveToFirst()){// move the cursor to the first one
@@ -345,9 +369,27 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all comments in the database.
      * @return
      */
-    public Cursor getAllComments(){
-        return getReadableDatabase().query(TABLE_COMMENTS, null, null, null,
-                null,null,null);
+    public List<Comment> getAllComments(){
+        List<Comment> listOfCommments = new ArrayList<>();
+        Comment comment = new Comment();
+
+        Cursor c = getReadableDatabase().query(TABLE_COMMENTS,null,null, null, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    comment.setId(c.getInt(c.getColumnIndex(COLUMN_COMMENTID)));
+                    comment.setContent(c.getString(c.getColumnIndex(COLUMN_CONTENT)));
+                    comment.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+                    comment.setRating(c.getString(c.getColumnIndex(COLUMN_RATING)));
+
+                    listOfCommments.add(comment);
+                    comment = new Comment();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfCommments;
     }
 
     /**
@@ -363,9 +405,28 @@ public class DBHelper extends SQLiteOpenHelper {
      * This method will return all the addresses in the database.
      * @return
      */
-    public Cursor getAllAddresses(){
-        return getReadableDatabase().query(TABLE_ADDRESS, null, null, null,
-                null,null,null);
+    public List<Address> getAllAddresses(){
+        List<Address> listOfAddresses = new ArrayList<>();
+        Address address = new Address();
+
+        Cursor c = getReadableDatabase().query(TABLE_ADDRESS,null,null, null, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    address.setId(c.getInt(c.getColumnIndex(COLUMN_ADDRESSID)));
+                    address.setPostalCode(c.getString(c.getColumnIndex(COLUMN_POSTALCODE)));
+                    address.setCity(c.getString(c.getColumnIndex(COLUMN_CITY)));
+                    address.setStreetName(c.getString(c.getColumnIndex(COLUMN_STREETNAME)));
+                    address.setStreetNumber(c.getString(c.getColumnIndex(COLUMN_STREETNUMBER)));
+
+                    listOfAddresses.add(address);
+                    address = new Address();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfAddresses;
     }
 
     /**
