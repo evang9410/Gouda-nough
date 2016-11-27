@@ -89,7 +89,7 @@ public class Navigation extends Fragment {
             mListener = (OnNavigationListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnNavigationListener");
         }
     }
 
@@ -113,6 +113,7 @@ public class Navigation extends Fragment {
                         rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
                         favourites = rs;
                         Log.d(TAG,"Favourites clicked");
+
                         // pass the favourites array to the parent activity via the interface.
                         mListener.setFavourites(rs);
                         break;
