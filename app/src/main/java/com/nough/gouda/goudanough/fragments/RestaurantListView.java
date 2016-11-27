@@ -18,6 +18,7 @@ import com.nough.gouda.goudanough.GoudaNoughAlertDialog;
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
+import com.nough.gouda.goudanough.ShowRestaurantActivity;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
@@ -48,6 +49,7 @@ public class RestaurantListView extends ListFragment {
 
     private OnRestaurantListViewListener mListener;
     public interface OnRestaurantListViewListener{
+        void setRestaurant(Restaurant restaurant);
         
     }
 
@@ -73,6 +75,19 @@ public class RestaurantListView extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_restaurant_list_view, container, false);
         lv = (ListView)view.findViewById(android.R.id.list);
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener = (RestaurantListView.OnRestaurantListViewListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnRestaurantListViewListener");
+        }
     }
 
     @Override
@@ -120,6 +135,18 @@ public class RestaurantListView extends ListFragment {
                 Restaurant r = (Restaurant)adapterView.getAdapter().getItem(i);
                 // send the restaurant to the ShowRestaurantActivity
                 // using the fragment to activity interface.
+
+                Intent resto_info = new Intent(getActivity(), ShowRestaurantActivity.class);
+                Log.d(RESTO_TAG, r.getName());
+                mListener.setRestaurant(r);
+                /** have to put it through the intent to be used in
+                 * onCreate of ShowRestaurantActivity
+                 * really dislike doing this...
+                 */
+                resto_info.putExtra("selected_restaurant", r);
+                getActivity().startActivity(resto_info);
+
+
             }
         });
     }

@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +22,11 @@ import com.nough.gouda.goudanough.fragments.Header;
 import com.nough.gouda.goudanough.fragments.Navigation;
 import com.nough.gouda.goudanough.fragments.RestaurantListView;
 
-public class MainActivity extends AppCompatActivity implements Navigation.OnNavigationListener  {
+public class MainActivity extends AppCompatActivity implements Navigation.OnNavigationListener, RestaurantListView.OnRestaurantListViewListener {
     private static final String TAG = "Main Activity";
     private RestaurantListViewAdapter adapter;
     private Restaurant[] favourite_restaurants;
+    private Restaurant selected_restaurant;
     // Fragment objects. Should be better named tbh.
     private Header header;
     private Navigation nav;
@@ -69,5 +71,10 @@ public class MainActivity extends AppCompatActivity implements Navigation.OnNavi
         this.favourite_restaurants = favourite_restaurants;
         adapter.setDataset(favourite_restaurants);
         list_title.setText("Favourites");
+    }
+
+    @Override
+    public void setRestaurant(Restaurant restaurant) {
+        this.selected_restaurant = restaurant;
     }
 }

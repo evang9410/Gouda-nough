@@ -1,10 +1,13 @@
 package com.nough.gouda.goudanough;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
- * Created by 1133611 on 11/21/2016.
+ * Created by Evan on 11/21/2016.
  */
-public class Restaurant {
+public class Restaurant implements Parcelable {
     private String name;
     private String url;
     private String cuisine;
@@ -88,4 +91,45 @@ public class Restaurant {
     public void setFeatured_image(String featured_image) {
         this.featured_image = featured_image;
     }
+
+    protected Restaurant(Parcel in) {
+        name = in.readString();
+        url = in.readString();
+        cuisine = in.readString();
+        phone_numbers = in.readString();
+        price_range = in.readInt();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        featured_image = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(url);
+        dest.writeString(cuisine);
+        dest.writeString(phone_numbers);
+        dest.writeInt(price_range);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(featured_image);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
+        @Override
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        @Override
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
 }
