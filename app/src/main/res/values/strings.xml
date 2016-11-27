@@ -9,4 +9,11 @@
     <string name="alert_negative">Nope!</string>
     <string name="alert_default_header">Gouda-Nuff</string>
     <string name="alert_default_content">Oops! Something went blue cheese bad</string>
-</resources>
+    <string name="resto_info_name">Restaurant Name</string>
+    <string name="resto_info_cuisine">Cuisine</string>
+    <string name="resto_info_price_range">$$$$ $$$ $$ $</string>
+    <string name="resto_info_url">https://www.restaurant.com/menu</string>
+    <string name="resto_info_telephone">514-559-7108</string>
+    <string name="resto_info_list_header">Reviews/Suggested Restaurants</string>
+    
+</resources>s
