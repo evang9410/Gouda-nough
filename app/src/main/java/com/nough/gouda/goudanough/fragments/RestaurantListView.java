@@ -46,7 +46,10 @@ public class RestaurantListView extends ListFragment {
     private String mParam1;
     private String mParam2;
 
-   // private OnFragmentInteractionListener mListener;
+    private OnRestaurantListViewListener mListener;
+    public interface OnRestaurantListViewListener{
+        
+    }
 
     public RestaurantListView() {
         // Required empty public constructor
@@ -103,6 +106,20 @@ public class RestaurantListView extends ListFragment {
                 }
 
                 return false;
+            }
+        });
+
+        /**
+         * Set up the click event for the restaurant clicks
+         * They fire the ShowRestaurantActivity
+         */
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // click event
+                Restaurant r = (Restaurant)adapterView.getAdapter().getItem(i);
+                // send the restaurant to the ShowRestaurantActivity
+                // using the fragment to activity interface.
             }
         });
     }
