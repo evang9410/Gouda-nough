@@ -6,9 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,22 +36,23 @@ public class RestaurantInfo extends Activity {
     //Restaurant restaurentInfo[] =9;
     // public String response = downloadJsonData();
     public String test = "";
+    public JSONObject jsonResult;
 
-    public String downloadJsonData() {
+
+    public void downloadJsonData() {
         // Gets the URL from the UI's text field.
-        String stringUrl = "www.google.com";
-        stringUrl = "http://" + stringUrl;
+        String stringUrl = "https://developers.zomato.com/api/v2.1/geocode?lat=45.4897&lon=-73.5878";
 
         new DownloadWebpageText().execute(stringUrl);
         // text is set in DownloadWebpageText().onPostExecute()
-        return "";
+
     }
 
 
     public class DownloadWebpageText extends AsyncTask<String, Void, String> {
 
         protected void onPostExecute(String result) {
-
+            Log.d("tag", "onPostExecute: "+result);
         }
 
         @Override
@@ -57,6 +62,8 @@ public class RestaurantInfo extends Activity {
             try {
                 return downloadUrl(urls[0]);
             } catch (IOException e) {
+
+                Log.e("TAG", "exception" + Log.getStackTraceString(e));
                 return "Unable to retrieve web page. URL may be invalid.";
             }
 
@@ -77,10 +84,11 @@ public class RestaurantInfo extends Activity {
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("GET");
-                conn.setDoOutput(true);
-
-                // specifies whether this connection allows receiving data
+                conn.setRequestProperty("Content-Type",
+                        "application/json; charset=UTF-8");
                 conn.setDoInput(true);
+                conn.addRequestProperty("user-key","70c0881aa31b9b522feff0de9fd16fd8");
+
                 // Starts the query
                 conn.connect();
                 int response = conn.getResponseCode();
@@ -91,11 +99,10 @@ public class RestaurantInfo extends Activity {
                 // get the stream for the data from the website
                 is = conn.getInputStream();
                 // read the stream, returns String
-                test = is.toString();
-                return "";
+               return readIt(is);
 
             } catch (IOException e) {
-
+                Log.e("TAG", "exception" + Log.getStackTraceString(e));
                 throw e;
             } finally {
             /*
@@ -121,7 +128,7 @@ public class RestaurantInfo extends Activity {
 
         public String readIt(InputStream stream) throws IOException,
                 UnsupportedEncodingException {
-            int bytesRead, totalRead = 0;
+            int bytesRead, totalRead=0;
             byte[] buffer = new byte[1024];
 
             // for data from the server
@@ -136,6 +143,8 @@ public class RestaurantInfo extends Activity {
                 totalRead += bytesRead;
             }
             writer.flush();
+            Log.d("tag", "Bytes read: " + totalRead
+                    + "(-1 means end of reader so max of)");
 
             return new String(byteArrayOutputStream.toString());
         } // readIt()
