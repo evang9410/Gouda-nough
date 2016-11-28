@@ -34,12 +34,6 @@ public class GoudaNoughAlertDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(getArguments() != null){
             Bundle bundle = getArguments();
-            if(bundle.containsKey("header")){
-                header = bundle.getString("header");
-                this.header.setText(header);
-            }else{ // set the default header text.
-                this.header.setText(R.string.alert_default_header);
-            }
             if(bundle.containsKey("content")){
                 content = bundle.getString("content");
                 this.content.setText(content);
