@@ -1,28 +1,21 @@
 package com.nough.gouda.goudanough;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.provider.Telephony;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Comment;
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.beans.User;
 import com.nough.gouda.goudanough.databases.DBHelper;
-import com.nough.gouda.goudanough.fragments.Navigation;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
+    public static final String TAG = "ActMain";// for logging
     private DBHelper dbh;
 
-    public static final String TAG = "ActMain";// for logging
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +26,11 @@ public class MainActivity extends AppCompatActivity  {
         //testInserts();
         //testGetAllUsers(); wirks
         //testGetAllComments();
-        testGetAllAddresses();//try
-        testGetAddressesByResto();//try
-        testGetCommentsById();//try
-        testGetCommentsByResto();//try
+        //testGetAllAddresses();//try
+        //testGetAddressesByResto();//try
+        //testGetCommentsById();//try
+        //testGetCommentsByResto();//try
+        testGetRestosByUId();
 
     }
 
@@ -87,6 +81,13 @@ public class MainActivity extends AppCompatActivity  {
         List<Address> addresses = dbh.getAddressByRestoID(1);
         for(Address a: addresses){
             Log.d(TAG, a.getCity());
+        }
+    }
+
+    private void testGetRestosByUId(){
+        List<Restaurant> r = dbh.getRestaurantsByUserId(1);
+        for(Restaurant a:r){
+            Log.d(TAG,a.getGenre());
         }
     }
 }

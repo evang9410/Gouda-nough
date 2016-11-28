@@ -525,4 +525,39 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return listOfAddresses;// return the list.
     }
+
+    /**
+     * This method will get all the restaurants by user ID
+     * basically, when the user clicks on Favourite restos,
+     * it will
+     * @param userID
+     * @return
+     */
+    public List<Restaurant> getRestaurantsByUserId(int userID){
+        List<Restaurant> listOfRestos = new ArrayList<>();
+        Restaurant resto = new Restaurant();
+        String whereClause = COLUMN_RESTO_USERID + " = ?";
+        String[] whereArgs = new String[]{userID+""};
+
+        Cursor c = getReadableDatabase().query(TABLE_RESTAURANT,null,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    resto.setId(c.getInt(c.getColumnIndex(COLUMN_RESTOID)));
+                    resto.setName(c.getString(c.getColumnIndex(COLUMN_RESTO_NAME)));
+                    resto.setLatitude(c.getDouble(c.getColumnIndex(COLUMN_LAT)));
+                    resto.setLongitude(c.getDouble(c.getColumnIndex(COLUMN_LONG)));
+                    resto.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
+                    resto.setPrice_range(c.getString(c.getColumnIndex(COLUMN_PRICERANGE)));
+                    resto.setUrl(c.getString(c.getColumnIndex(COLUMN_URL)));
+
+                    listOfRestos.add(resto);
+                    resto = new Restaurant();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfRestos;// return the list.
+    }
 }
