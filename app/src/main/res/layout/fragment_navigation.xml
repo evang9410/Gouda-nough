@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -8,34 +9,49 @@
 
     <!-- TODO: Update blank fragment layout -->
     <ImageButton
-        android:layout_width="0dp"
-        android:src="@drawable/star"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/icon_fav"
+        android:background="@android:color/transparent"
         android:id="@+id/nav_favourites"/>
     <ImageButton
-        android:src="@drawable/magnify"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/icon_find"
+        android:background="@android:color/transparent"
         android:id="@+id/nav_find"/>
     <ImageButton
-        android:src="@drawable/near_me"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/icon_nearby"
+        android:background="@android:color/transparent"
         android:id="@+id/nav_nearby"/>
     <ImageButton
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@drawable/calculator"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/icon_tip_calculator"
+        android:background="@android:color/transparent"
         android:id="@+id/nav_tip_calculator"/>
     <ImageButton
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@drawable/add"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/icon_add_restaurant"
+        android:background="@android:color/transparent"
         android:id="@+id/nav_add_restaurant"/>
 
 </LinearLayout>

@@ -65,7 +65,6 @@ public class GoudaNoughAlertDialog extends DialogFragment {
     private void initViewObjects(View v) {
         btn_negative = (Button)v.findViewById(R.id.alert_btn_negative);
         btn_positive = (Button)v.findViewById(R.id.alert_btn_positive);
-        header = (TextView)v.findViewById(R.id.alert_header);
         content = (TextView)v.findViewById(R.id.alert_content);
     }
 }
