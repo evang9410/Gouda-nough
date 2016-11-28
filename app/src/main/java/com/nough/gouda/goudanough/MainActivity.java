@@ -2,6 +2,7 @@ package com.nough.gouda.goudanough;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Comment;
 import com.nough.gouda.goudanough.beans.User;
 import com.nough.gouda.goudanough.databases.DBHelper;
@@ -30,7 +32,11 @@ public class MainActivity extends AppCompatActivity  {
         dbh = DBHelper.getDBHelper(this);
         //testInserts();
         //testGetAllUsers(); wirks
-        testGetAllComments();
+        //testGetAllComments();
+        testGetAllAddresses();//try
+        testGetAddressesByResto();//try
+        testGetCommentsById();//try
+        testGetCommentsByResto();//try
 
     }
 
@@ -54,6 +60,33 @@ public class MainActivity extends AppCompatActivity  {
         List<Comment> comments = dbh.getAllComments();
         for(Comment c : comments){
             Log.d(TAG, c.getTitle());
+        }
+    }
+
+    private void testGetAllAddresses(){
+        List<Address> addresses = dbh.getAllAddresses();
+        for(Address a : addresses){
+            Log.d(TAG, a.getCity());
+        }
+    }
+
+    private void testGetCommentsById(){
+        List<Comment> comments = dbh.getCommentsByUserId(1);
+        for(Comment a : comments){
+            Log.d(TAG, a.getContent());
+        }
+    }
+
+    private void testGetCommentsByResto(){
+        List<Comment> comments = dbh.getCommentsByResto(1);
+        for(Comment a : comments){
+            Log.d(TAG, a.getContent());
+        }
+    }
+    private void testGetAddressesByResto(){
+        List<Address> addresses = dbh.getAddressByRestoID(1);
+        for(Address a: addresses){
+            Log.d(TAG, a.getCity());
         }
     }
 }

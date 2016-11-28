@@ -500,8 +500,29 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param restoID
      * @return
      */
-    public Address getAddressByRestoID(int restoID){
-        //todo
-        return null;
+    public List<Address> getAddressByRestoID(int restoID){
+        List<Address> listOfAddresses = new ArrayList<>();
+        Address address = new Address();
+        String whereClause = COLUMN_ADDR_RESTOID+ " = ?";
+        String[] whereArgs = new String[]{restoID+""};
+        Cursor c = getReadableDatabase().query(TABLE_ADDRESS,null,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    address.setCity(c.getString(c.getColumnIndex(COLUMN_CITY)));
+                    address.setId(c.getInt(c.getColumnIndex(COLUMN_ADDRESSID)));
+                    address.setPostalCode(c.getString(c.getColumnIndex(COLUMN_POSTALCODE)));
+                    address.setStreetName(c.getString(c.getColumnIndex(COLUMN_STREETNAME)));
+                    address.setStreetNumber(c.getString(c.getColumnIndex(COLUMN_STREETNUMBER)));
+
+
+                    listOfAddresses.add(address);
+                    address = new Address();
+                }while(c.moveToNext());
+            }
+        }
+        return listOfAddresses;// return the list.
     }
 }
