@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 import com.nough.gouda.goudanough.GoudaNoughAlertDialog;
 import com.nough.gouda.goudanough.R;
-import com.nough.gouda.goudanough.Restaurant;
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 import com.nough.gouda.goudanough.ShowRestaurantActivity;
 

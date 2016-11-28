@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.fragments.RestaurantListView;
 
 public class ShowRestaurantActivity extends AppCompatActivity implements RestaurantListView.OnRestaurantListViewListener{

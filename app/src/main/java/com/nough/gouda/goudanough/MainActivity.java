@@ -1,23 +1,13 @@
 package com.nough.gouda.goudanough;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 
-import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.fragments.Header;
 import com.nough.gouda.goudanough.fragments.Navigation;
 import com.nough.gouda.goudanough.fragments.RestaurantListView;
