@@ -2,11 +2,10 @@ package com.nough.gouda.goudanough.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
@@ -15,12 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
-import com.nough.gouda.goudanough.Restaurant;
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.RestaurantInfo;
-import com.nough.gouda.goudanough.RestaurantListViewAdapter;
+import com.nough.gouda.goudanough.databases.DBHelper;
+
+import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class Navigation extends Fragment {
     private Restaurant[] favourites;
     private Restaurant[] nearby_restaurants;
     private ImageButton[] nav_buttons = new ImageButton[6];
+    private DBHelper dao;
 
     // interface object for communicating with parent activity.
     private OnNavigationListener mListener;
@@ -55,6 +59,14 @@ public class Navigation extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().deleteDatabase("goudanough.db");
+        dao = dao.getDBHelper(getActivity());
+        dao.insertNewUser("Ryan","H3W1N1","wolrd","railanderson@gmail.com"); //works
+        dao.insertNewUser("Evan","H3W1N1","wolrd","railanderson@gmail.com");
+        Restaurant resto = new Restaurant("My fav resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        Restaurant resto2 = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        dao.insertNewResto(resto, 1);
+        dao.insertNewResto(resto2,1);
 //        if (getArguments() != null) {
 //
 //        }
@@ -89,7 +101,7 @@ public class Navigation extends Fragment {
             mListener = (OnNavigationListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnNavigationListener");
         }
     }
 
@@ -108,10 +120,17 @@ public class Navigation extends Fragment {
                 switch(view.getId()){
                     case R.id.nav_favourites:
                         // fill favourites array.
-                        Restaurant[] rs = new Restaurant[2];
-                        rs[0] = new Restaurant("My fav resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-                        rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-                        favourites = rs;
+                        /**
+                         * Get the restaurants from the current user, obtain their id from the database
+                         * store it in the
+                         */
+                        List<Restaurant> restaurants =  dao.getRestaurantsByUserId(1);
+                        Log.d(TAG,dao.getUserIdByUserName("Evan")+"");
+//                        Restaurant[] rs = new Restaurant[2];
+//                        rs[0] = new Restaurant("My fav resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+//                        rs[1] = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+//                        favourites = rs;
+                        Restaurant[] rs = restaurants.toArray(new Restaurant[restaurants.size()]);
                         Log.d(TAG,"Favourites clicked");
                         // pass the favourites array to the parent activity via the interface.
                         mListener.setFavourites(rs);
@@ -141,7 +160,7 @@ public class Navigation extends Fragment {
     private void checkStatus() {
         NetworkInfo networkInfo;
 
-        Context context = getContext();
+        Context context = getActivity(); // changed from getContext to support minimum api.
         boolean networkIsUp = false;
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         // getActiveNetworkInfo() each time as the network may swap as the

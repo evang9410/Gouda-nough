@@ -38,7 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTO_NAME = "name";
     public static final String COLUMN_PRICERANGE = "priceRange";
     public static final String COLUMN_RATING = "rating";
-    public static final String COLUMN_NOTES = "notes";
+    public static final String COLUMN_PHONENUMBER = "phoneNumber";
+    public static final String COLUMN_CUISINE = "cuisine";
     public static final String COLUMN_RESTO_USERID = "userID";
     public static final String COLUMN_LONG = "longitude";
     public static final String COLUMN_LAT = "latitude";
@@ -89,9 +90,10 @@ public class DBHelper extends SQLiteOpenHelper {
             + "( "
             + COLUMN_RESTOID + " integer primary key autoincrement, "
             + COLUMN_RESTO_NAME + " text, "
-            + COLUMN_PRICERANGE + " text, "
+            + COLUMN_PRICERANGE + " int, "
+            + COLUMN_PHONENUMBER + " text, "
             + COLUMN_RATING + " text, "
-            + COLUMN_NOTES + " text, "
+            + COLUMN_CUISINE + " text, "
             + COLUMN_RESTO_USERID + " integer, "
             + COLUMN_LONG + " real, "
             + COLUMN_LAT + " real, "
@@ -103,7 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_USER = "create table " + TABLE_USERS
             + "( "
             + COLUMN_USERID + " integer primary key autoincrement, "
-            + COLUMN_NAME + " text, "
+            + COLUMN_NAME + " text unique, "
             + COLUMN_USER_POSTALCODE + " text, "
             + COLUMN_PASS + " text, "
             + COLUMN_EMAIL + " text"
@@ -191,30 +193,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * This method will insert a new Restaurant record to the database.
-     *
-     * @param name name of the restaurant
-     * @param price price range
-     * @param rating ratings
-     * @param notes notes about the restaurant like "Traditional Vietnamese food."
-     * @param userID who submitted
-     * @param longitude precise location
-     * @param latitude precise location
-     * @return the number of rows affected.
+     * @param resto
+     * @param userId
+     * @return
      */
-    public long insertNewResto(String name, String price, String rating,
-                               String notes, int userID, double longitude,
-                               double latitude, byte[] img, String url)
+    public long insertNewResto(Restaurant resto, int userId)
     {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_RESTO_NAME,name);
-        cv.put(COLUMN_PRICERANGE,price);
-        cv.put(COLUMN_RATING,rating);
-        cv.put(COLUMN_NOTES,notes);
-        cv.put(COLUMN_RESTO_USERID,userID);
-        cv.put(COLUMN_LONG,longitude);
-        cv.put(COLUMN_LAT,latitude);
-        cv.put(COLUMN_IMG,img);
-        cv.put(COLUMN_URL, url);
+        cv.put(COLUMN_RESTO_NAME,resto.getName());
+        cv.put(COLUMN_PRICERANGE,resto.getPrice_range());
+        cv.put(COLUMN_RATING,resto.getRating());
+        cv.put(COLUMN_CUISINE,resto.getCuisine());
+        cv.put(COLUMN_RESTO_USERID,userId);
+        cv.put(COLUMN_LONG,resto.getLongitude());
+        cv.put(COLUMN_LAT,resto.getLatitude());
+        cv.put(COLUMN_IMG,resto.getFeatured_image());
+        cv.put(COLUMN_URL,resto.getUrl());
 
         return getWritableDatabase().insert(TABLE_RESTAURANT, null, cv);
 
@@ -324,8 +318,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     resto.setName(c.getString(c.getColumnIndex(COLUMN_RESTO_NAME)));
                     resto.setLatitude(c.getDouble(c.getColumnIndex(COLUMN_LAT)));
                     resto.setLongitude(c.getDouble(c.getColumnIndex(COLUMN_LONG)));
-                    resto.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
-                    resto.setPrice_range(c.getString(c.getColumnIndex(COLUMN_PRICERANGE)));
+                    resto.setCuisine(c.getString(c.getColumnIndex(COLUMN_CUISINE)));
+                    resto.setPrice_range(c.getInt(c.getColumnIndex(COLUMN_PRICERANGE)));
                     resto.setUrl(c.getString(c.getColumnIndex(COLUMN_URL)));
 
                     restaurants.add(resto);
@@ -549,8 +543,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     resto.setName(c.getString(c.getColumnIndex(COLUMN_RESTO_NAME)));
                     resto.setLatitude(c.getDouble(c.getColumnIndex(COLUMN_LAT)));
                     resto.setLongitude(c.getDouble(c.getColumnIndex(COLUMN_LONG)));
-                    resto.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
-                    resto.setPrice_range(c.getString(c.getColumnIndex(COLUMN_PRICERANGE)));
+                    resto.setCuisine(c.getString(c.getColumnIndex(COLUMN_CUISINE)));
+                    resto.setPrice_range(c.getInt(c.getColumnIndex(COLUMN_PRICERANGE)));
                     resto.setUrl(c.getString(c.getColumnIndex(COLUMN_URL)));
 
                     listOfRestos.add(resto);
@@ -559,5 +553,29 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return listOfRestos;// return the list.
+    }
+
+    /**
+     * This method will get a list of user ids based on their username.
+     *
+     * @param userName the unique userName
+     * @return the user ID for that.
+     */
+    public int getUserIdByUserName(String userName){
+        int userID = 0;
+        String whereClause = COLUMN_NAME + " = ?";
+        String[] whereArgs = new String[]{userName};
+        String[] tableColumns = new String[]{COLUMN_USERID};
+        Cursor c = getReadableDatabase().query(TABLE_USERS,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    userID = c.getInt(c.getColumnIndex(COLUMN_USERID));
+                }while(c.moveToNext());// should iterate only once because usernames are uniques.
+            }
+        }
+        return userID;
     }
 }
