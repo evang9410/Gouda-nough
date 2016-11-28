@@ -73,21 +73,9 @@ public class Header extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_header, container, false);
-        ImageButton logo = (ImageButton)view.findViewById(R.id.header_logo);
-
-        logo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("test");
-            }
-        });
-
-
-
-
 
       //  return inflater.inflate(R.layout.fragment_header, container, false);
-    return view;
+        return view;
     }
 
 /*

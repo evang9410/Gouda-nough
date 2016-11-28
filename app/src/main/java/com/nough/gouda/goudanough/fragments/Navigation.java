@@ -4,18 +4,23 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
+
+import static android.R.attr.data;
 
 /**
  * A simple {@link Fragment} subclass.
