@@ -2,10 +2,14 @@ package com.nough.gouda.goudanough.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.ImageButton;
 import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
+import com.nough.gouda.goudanough.RestaurantInfo;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 
 /**
@@ -122,15 +127,65 @@ public class Navigation extends Fragment {
                     case R.id.nav_nearby:
                         // show the nearby restaurants
                         Log.d(TAG,"nearby called");
+                        checkStatus();
                         break;
                     case R.id.nav_tip_calculator:
-                        Log.d(TAG, "tip caluulator selected");
+                        Log.d(TAG, "tip calculator selected");
                         // launch tip activity
                         break;
                 }
             }
         });
     }
+
+    private void checkStatus() {
+        NetworkInfo networkInfo;
+
+        Context context = getContext();
+        boolean networkIsUp = false;
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // getActiveNetworkInfo() each time as the network may swap as the
+        // device moves
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
+            // ALWAYS check isConnected() before initiating network traffic
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                //  tv2.setText("Network is connected or connecting");
+                networkIsUp = true;
+            } else {
+                // tv2.setText("No network connectivity");
+                networkIsUp = false;
+            }
+        } else {
+            //  tv2.setText("No network manager service");
+            networkIsUp = false;
+        }
+
+        if(networkIsUp= false){
+            System.out.println("false");
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("No network connectivity")
+                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+            // Create the AlertDialog object
+            builder.create().show();
+        }
+        else{
+            //if network is conneced
+            RestaurantInfo info = new RestaurantInfo();
+
+            //get the coordinates here
+            //  double lat = ;
+            //  double lon = ;
+            info.downloadJsonData();
+
+        }
+    }
+
 
     /*
     // TODO: Rename method, update argument and hook method into UI event
