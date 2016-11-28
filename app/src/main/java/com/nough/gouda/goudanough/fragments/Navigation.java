@@ -2,6 +2,7 @@ package com.nough.gouda.goudanough.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.beans.Restaurant;
@@ -20,6 +22,8 @@ import com.nough.gouda.goudanough.RestaurantInfo;
 import com.nough.gouda.goudanough.databases.DBHelper;
 
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * A simple {@link Fragment} subclass.
