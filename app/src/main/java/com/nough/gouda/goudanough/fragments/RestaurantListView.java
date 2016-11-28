@@ -117,7 +117,7 @@ public class RestaurantListView extends ListFragment {
                     Log.i(RESTO_TAG,"No telephone service enabled.");
                     GoudaNoughAlertDialog alert = new GoudaNoughAlertDialog();
                     Bundle b = new Bundle();
-                    b.putString("header","Calling Error");
+                    //b.putString("header","Calling Error");
                     b.putString("content","We attempted to call the restaurant, however it seems that your device does not support this feature.");
                     alert.setArguments(b);
                     alert.show(getFragmentManager(),"Dialog");
