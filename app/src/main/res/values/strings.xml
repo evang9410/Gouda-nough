@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- ALERT DIALOG STRINGS -->
+    <string name="alert_positive"> Got it!</string>
+    <string name="alert_negative">Nope!</string>
+    <string name="alert_default_header">Gouda-Nuff</string>
+    <string name="alert_default_content">Oops! Something went blue cheese bad</string>
 </resources>

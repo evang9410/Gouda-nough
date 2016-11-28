@@ -1,8 +1,7 @@
 package com.nough.gouda.goudanough;
+
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.nough.gouda.goudanough.beans.Address;
@@ -11,11 +10,11 @@ import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.beans.User;
 import com.nough.gouda.goudanough.databases.DBHelper;
 
-import org.junit.*;
+import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Railanderson Sena on 2016-11-25.

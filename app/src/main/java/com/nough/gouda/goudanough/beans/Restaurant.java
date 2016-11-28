@@ -37,7 +37,7 @@ public class Restaurant {
 
     public Restaurant(int id, String name, String url, String notes,
                       String price_range, double latitude, double longitude,
-                      String img_src,String genre, List<Comment> comments, Address address){
+                      String img_src, String genre, List<Comment> comments, Address address){
         this.id = id;
         this.name = name;
         this.url = url;

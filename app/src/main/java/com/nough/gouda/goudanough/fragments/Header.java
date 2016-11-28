@@ -1,9 +1,10 @@
 package com.nough.gouda.goudanough.fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import android.view.View.OnClickListener;
  * Use the {@link Header#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Header extends Fragment  {
+public class Header extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,7 +66,6 @@ public class Header extends Fragment  {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
 
-
     }
 
     @Override
@@ -85,15 +85,10 @@ public class Header extends Fragment  {
 
 
 
+
       //  return inflater.inflate(R.layout.fragment_header, container, false);
     return view;
     }
-
-
-
-
-
-
 
 /*
     // TODO: Rename method, update argument and hook method into UI event
