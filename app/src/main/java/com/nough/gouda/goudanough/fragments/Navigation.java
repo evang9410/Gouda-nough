@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.nough.gouda.goudanough.CurrentRestaurants;
 import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.Restaurant;
@@ -103,6 +106,7 @@ public class Navigation extends Fragment {
     private void createClickEvent(int id, View view){
         ImageButton ib = (ImageButton)view.findViewById(id);
         ib.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 switch(view.getId()){
@@ -128,16 +132,23 @@ public class Navigation extends Fragment {
                         // show the nearby restaurants
                         Log.d(TAG,"nearby called");
                         checkStatus();
+
+
                         break;
                     case R.id.nav_tip_calculator:
                         Log.d(TAG, "tip calculator selected");
                         // launch tip activity
+                        for(int i = 0; i < CurrentRestaurants.closeByRestaurants.length;i++){
+                            System.out.println(CurrentRestaurants.closeByRestaurants[i].toString());
+                        }
+
                         break;
                 }
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkStatus() {
         NetworkInfo networkInfo;
 

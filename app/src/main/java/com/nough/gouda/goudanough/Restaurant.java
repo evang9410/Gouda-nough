@@ -88,4 +88,8 @@ public class Restaurant {
     public void setFeatured_image(String featured_image) {
         this.featured_image = featured_image;
     }
+
+    public String toString(){
+        return name + " " + url + " " + cuisine + " " + price_range + " " + latitude + " " + longitude + " " + featured_image;
+    }
 }
