@@ -157,9 +157,17 @@ public class RestaurantInfo extends Activity {
                     String url = arr.getJSONObject(i).getJSONObject("restaurant").get("url").toString();
                     String cuisines = arr.getJSONObject(i).getJSONObject("restaurant").get("cuisines").toString();
                     String image = arr.getJSONObject(i).getJSONObject("restaurant").get("thumb").toString();
-                    String pricRangeString = arr.getJSONObject(i).getJSONObject("restaurant").get("price_range").toString();
-                    int price_range = Integer.parseInt(pricRangeString);
-                    restaurants[i] = new Restaurant(name, url, cuisines, "", price_range, lat, lon, image);
+                    String priceRangeString = arr.getJSONObject(i).getJSONObject("restaurant").get("price_range").toString();
+                    int price_range = Integer.parseInt(priceRangeString);
+                    String phoneNumber = "";
+                        try {
+                            phoneNumber = arr.getJSONObject(i).getJSONObject("restaurant").get("phone_numbers").toString();
+                        }
+                        catch(JSONException js){
+                            phoneNumber = "";
+                        }
+
+                    restaurants[i] = new Restaurant(name, url, cuisines, phoneNumber, price_range, lat, lon, image);
                     CurrentRestaurants.closeByRestaurants[i] = restaurants[i];
                 }
 

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,6 +90,17 @@ public class MainActivity extends AppCompatActivity implements Navigation.OnNavi
         int id = item.getItemId();
 
         //about page
+        if (id == R.id.about) {
+            Intent newIntent = new Intent(this, AboutActivity.class);
+            startActivity(newIntent);
+        } else if (id == R.id.dawson) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dawsoncollege.qc.ca"));
+            startActivity(browserIntent);
+        }
+        else if (id == R.id.settings){
+            Intent newIntent = new Intent(this, SettingsActivity.class);
+            startActivity(newIntent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

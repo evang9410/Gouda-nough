@@ -9,4 +9,12 @@
     <string name="alert_negative">Nope!</string>
     <string name="alert_default_header">Gouda-Nuff</string>
     <string name="alert_default_content">Oops! Something went blue cheese bad</string>
+
+
+
+
+    <string name="about">About</string>
+    <string name="dawson">Dawson</string>
+    <string name="settings">Settings</string>
+
 </resources>

@@ -90,6 +90,6 @@ public class Restaurant {
     }
 
     public String toString(){
-        return name + " " + url + " " + cuisine + " " + price_range + " " + latitude + " " + longitude + " " + featured_image;
+        return name + " " + url + " " + cuisine + " " + price_range + " " + latitude + " " + longitude + " " + featured_image + " " + phone_numbers;
     }
 }

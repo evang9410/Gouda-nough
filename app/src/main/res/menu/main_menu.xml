@@ -7,17 +7,17 @@
 
     <item android:id="@+id/about"
         android:orderInCategory="100"
-        android:title="About"
+        android:title="@string/about"
         app:showAsAction="never"></item>
 
-    <item android:id="@+id/randomQuote"
+    <item android:id="@+id/dawson"
         android:orderInCategory="100"
-        android:title="Dawson"
+        android:title="@string/dawson"
         app:showAsAction="never"></item>
 
-    <item android:id="@+id/lastQuote"
+    <item android:id="@+id/settings"
         android:orderInCategory="100"
-        android:title="Settings"
+        android:title="@string/settings"
         app:showAsAction="never"></item>
 
 </menu>
