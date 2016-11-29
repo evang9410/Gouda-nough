@@ -203,6 +203,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_RESTO_NAME,resto.getName());
         cv.put(COLUMN_PRICERANGE,resto.getPrice_range());
         cv.put(COLUMN_RATING,resto.getRating());
+        cv.put(COLUMN_PHONENUMBER,resto.getPhone_numbers());
         cv.put(COLUMN_CUISINE,resto.getCuisine());
         cv.put(COLUMN_RESTO_USERID,userId);
         cv.put(COLUMN_LONG,resto.getLongitude());

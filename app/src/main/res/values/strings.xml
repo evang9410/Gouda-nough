@@ -20,11 +20,11 @@
     <string name="cancel_btn_lbl">Cancel</string>
 
     <string-array name="price_range_spin">
-        <item>$</item>
-        <item>$$</item>
-        <item>$$$</item>
-        <item>$$$$</item>
-        <item>$$$$$</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
     <string-array name="rating_spin">
         <item>1</item>

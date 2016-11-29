@@ -1,14 +1,20 @@
 package com.nough.gouda.goudanough.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.nough.gouda.goudanough.MainActivity;
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.databases.DBHelper;
 
 /**
@@ -39,17 +45,63 @@ public class AddRestoActivity extends Activity {
     public void onSaveClicked(View v){
         if(areAllFieldsEntered())
         {
-            //// TODO: 11/29/2016 save to the database
+            Restaurant resto = new Restaurant();
+            resto.setCuisine(cuisine.getText().toString());
+            resto.setName(resto_name.getText().toString());
+            resto.setPhone_numbers(phone_number.getText().toString());
+            resto.setRating(rating_spinner.getSelectedItem().toString());
+            int price = Integer.parseInt(price_spinner.getSelectedItem().toString());
+            resto.setPrice_range(price);
+            //resto.setFeatured_image(); // TODO
+            //resto.setLatitude();//        TODO
+            //resto.setLongitude();//       TODO
+            //int userId = getUserID() //   TODO GET THE USER ID FROM THE AUTHENTICATION PAGE.
+            dao.insertNewResto(resto,1);// ONE FOR NOW BUT CHANGE LATER!
+            redirectToMain();
         }
         else{
-            // TODO: 11/29/2016 display toast
+            Toast toast = Toast.makeText(this,"One of your fields was not entered.",Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
     public void onCancelClicked(View v){
 
+        resto_name.setText("");
+        cuisine.setText("");
+        phone_number.setText("");
+        //redirect to main page
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+
+    }
+
+    private void alertDiscart(){
+        new AlertDialog.Builder(this)
+                .setTitle("Warning")
+                .setMessage("Are you sure you wanna discart your changes ?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        //// TODO: 11/29/2016
+                        redirectToMain();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+                        //// TODO: 11/29/2016
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void redirectToMain(){
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
     private boolean areAllFieldsEntered(){
         if(resto_name == null || cuisine == null || phone_number == null)
             return false;
