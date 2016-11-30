@@ -1,11 +1,18 @@
 package com.nough.gouda.goudanough;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -23,13 +30,15 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.jar.Manifest;
+import java.util.jar.Pack200;
 
 import com.google.gson.Gson;
 
 /**
  * Created by Jesse on 23/11/2016.
  */
-public class RestaurantInfo extends Activity {
+public class RestaurantInfo extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,9 @@ public class RestaurantInfo extends Activity {
             // Only read the first 500 characters of the retrieved
             // web page content.
             // int len = MAXBYTES;
+            // call request permisson
+
+            requestLocation();
             HttpURLConnection conn = null;
             URL url = new URL(myurl);
             try {
@@ -126,6 +138,44 @@ public class RestaurantInfo extends Activity {
 
         } // downloadUrl()
 
+        private void requestLocation() {/*
+            if(ContextCompat.checkSelfPermission(getBaseContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED){
+                shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            }else{
+                ActivityCompat.requestPermissions(RestaurantInfo.this,
+                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+            }
+*/
+            // Here, thisActivity is the current activity
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(RestaurantInfo.this,
+                            new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                            1);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
+
+
         public Restaurant[] convertStreamToJson(InputStream inputStream) throws IOException, JSONException {
 
             String tempData = readIt(inputStream);
@@ -160,15 +210,15 @@ public class RestaurantInfo extends Activity {
                     String priceRangeString = arr.getJSONObject(i).getJSONObject("restaurant").get("price_range").toString();
                     int price_range = Integer.parseInt(priceRangeString);
                     String phoneNumber = "";
-                        try {
-                            phoneNumber = arr.getJSONObject(i).getJSONObject("restaurant").get("phone_numbers").toString();
-                        }
-                        catch(JSONException js){
-                            phoneNumber = "";
-                        }
+                    try {
+                        phoneNumber = arr.getJSONObject(i).getJSONObject("restaurant").get("phone_numbers").toString();
+                    } catch (JSONException js) {
+                        phoneNumber = "";
+                    }
 
                     restaurants[i] = new Restaurant(name, url, cuisines, phoneNumber, price_range, lat, lon, image);
                     CurrentRestaurants.closeByRestaurants[i] = restaurants[i];
+                    // add to listview in main activity from here.
                 }
 
 

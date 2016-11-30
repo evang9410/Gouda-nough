@@ -7,4 +7,6 @@ package com.nough.gouda.goudanough;
 public class CurrentRestaurants {
 
     public static Restaurant[] closeByRestaurants = new Restaurant[9];
+
+
 }
