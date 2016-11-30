@@ -29,6 +29,8 @@
         <activity android:name=".ShowRestaurantActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ShowRestaurantActivity"></activity>
+        <activity android:name=".activities.AddRestoActivity"></activity>
     </application>
 
 </manifest>
