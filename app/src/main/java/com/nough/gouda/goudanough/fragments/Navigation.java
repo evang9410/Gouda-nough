@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.nough.gouda.goudanough.R;
+import com.nough.gouda.goudanough.activities.AddRestoActivity;
 import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.RestaurantInfo;
 import com.nough.gouda.goudanough.databases.DBHelper;
@@ -136,7 +138,9 @@ public class Navigation extends Fragment {
                         mListener.setFavourites(rs);
                         break;
                     case R.id.nav_add_restaurant:
-                        // launch the add resto activity
+                        Intent i = new Intent(getActivity(),AddRestoActivity.class);
+                        //i.putExtra("activityValue",getActivity().getLocalClassName());
+                        startActivity(new Intent(getActivity(), AddRestoActivity.class));// launch add activity
                         Log.d(TAG,"Add restaurant");
                         break;
                     case R.id.nav_find:

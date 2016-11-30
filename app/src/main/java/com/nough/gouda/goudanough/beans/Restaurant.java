@@ -23,6 +23,7 @@ public class Restaurant implements Parcelable {
     private String featured_image;//
     private String rating;
     private List<Comment> comments;
+    private Address address;
 
     /**
      * Default Constructor.
@@ -129,6 +130,14 @@ public class Restaurant implements Parcelable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     protected Restaurant(Parcel in) {

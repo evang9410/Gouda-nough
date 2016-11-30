@@ -62,7 +62,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:ems="10"
             android:id="@+id/resto_phone"
             android:layout_weight="1" />
@@ -78,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/resto_price_spin"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:spinnerMode="dialog"/>
     </LinearLayout>
 
     <LinearLayout
@@ -91,7 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/resto_rating_spin"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:spinnerMode="dialog"/>
     </LinearLayout>
 
     <LinearLayout
@@ -123,21 +125,41 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TextView
-            android:text="addr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/resto_addr_lbl"
-            android:layout_weight="1" />
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="To Do address"
+            android:inputType="number"
+            android:text="@string/prompt_addr_num"
             android:ems="10"
-            android:id="@+id/resto_address"
+            android:id="@+id/street_number"
             android:layout_weight="1" />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/street_name"
+            android:layout_weight="1"
+            android:text="@string/prompt_addr_nam" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@string/prompt_addr_cit"
+            android:ems="10"
+            android:id="@+id/city"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:id="@+id/postal_code"
+            android:layout_weight="1"
+            android:text="@string/prompt_addr_pos" />
     </LinearLayout>
 
     <LinearLayout
@@ -162,4 +184,6 @@
             android:layout_weight="1"
             android:onClick="onCancelClicked" />
     </LinearLayout>
+
+
 </LinearLayout>

@@ -89,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_RESTAURANT = "create table " + TABLE_RESTAURANT
             + "( "
             + COLUMN_RESTOID + " integer primary key autoincrement, "
-            + COLUMN_RESTO_NAME + " text, "
+            + COLUMN_RESTO_NAME + " text unique, "
             + COLUMN_PRICERANGE + " int, "
             + COLUMN_PHONENUMBER + " text, "
             + COLUMN_RATING + " text, "
@@ -279,20 +279,17 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * This method will take care of inserting new addresses to the database.
      *
-     * @param streetName
-     * @param streetNumber
-     * @param city
-     * @param postalCode
+     *
      * @return the number of rows affected.
      */
-    public long insertNewAddress(String streetName, String streetNumber, String city, String postalCode, int restoID){
+    public long insertNewAddress(Address addr, int restoID){
 
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_STREETNAME,streetName);
-        cv.put(COLUMN_STREETNUMBER,streetNumber);
-        cv.put(COLUMN_CITY,city);
-        cv.put(COLUMN_POSTALCODE,postalCode);
+        cv.put(COLUMN_STREETNAME,addr.getStreetName());
+        cv.put(COLUMN_STREETNUMBER,addr.getStreetNumber());
+        cv.put(COLUMN_CITY,addr.getCity());
+        cv.put(COLUMN_POSTALCODE,addr.getPostalCode());
         cv.put(COLUMN_ADDR_RESTOID,restoID);
 
 
@@ -578,5 +575,28 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return userID;
+    }
+
+    /**
+     * This method will get the particular resto id by its name.
+     * @param restoName
+     * @return
+     */
+    public int getRestoIdByName(String restoName){
+        int result =0 ;
+        String whereClause = COLUMN_RESTO_NAME + " = ?";
+        String[] whereArgs = new String[]{restoName};
+        String[] tableColumns = new String[]{COLUMN_RESTOID};
+        Cursor c = getReadableDatabase().query(TABLE_RESTAURANT,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    result = c.getInt(c.getColumnIndex(COLUMN_RESTOID));
+                }while(c.moveToNext());// should iterate only once because usernames are uniques.
+            }
+        }
+        return result;
     }
 }
