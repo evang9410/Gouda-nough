@@ -15,5 +15,7 @@
     <string name="resto_info_url">https://www.restaurant.com/menu</string>
     <string name="resto_info_telephone">514-559-7108</string>
     <string name="resto_info_list_header">Reviews/Suggested Restaurants</string>
-    
+    <string name="about">About</string>
+    <string name="dawson">Dawson</string>
+    <string name="settings">Settings</string>
 </resources>

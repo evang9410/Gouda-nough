@@ -3,9 +3,21 @@ package com.nough.gouda.goudanough;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.fragments.Header;
@@ -64,7 +76,35 @@ public class MainActivity extends AppCompatActivity implements Navigation.OnNavi
     }
 
     @Override
-    public void setRestaurant(Restaurant restaurant) {
-        this.selected_restaurant = restaurant;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //about page
+        if (id == R.id.about) {
+            Intent newIntent = new Intent(this, AboutActivity.class);
+            startActivity(newIntent);
+        } else if (id == R.id.dawson) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dawsoncollege.qc.ca"));
+            startActivity(browserIntent);
+        }
+        else if (id == R.id.settings){
+            Intent newIntent = new Intent(this, SettingsActivity.class);
+            startActivity(newIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }

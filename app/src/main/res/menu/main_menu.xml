@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.nough.gouda.goudanough.MainActivity">
+
+    <item android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="@string/about"
+        app:showAsAction="never"></item>
+
+    <item android:id="@+id/dawson"
+        android:orderInCategory="100"
+        android:title="@string/dawson"
+        app:showAsAction="never"></item>
+
+    <item android:id="@+id/settings"
+        android:orderInCategory="100"
+        android:title="@string/settings"
+        app:showAsAction="never"></item>
+
+</menu>
