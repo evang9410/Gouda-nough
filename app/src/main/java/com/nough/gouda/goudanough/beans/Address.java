@@ -20,8 +20,7 @@ public class Address {
         postalCode = "";
     }
 
-    public Address(int id, String streetName, String streetNumber, String city, String postalCode) {
-        this.id = id;
+    public Address(String streetName, String streetNumber, String city, String postalCode) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.city = city;

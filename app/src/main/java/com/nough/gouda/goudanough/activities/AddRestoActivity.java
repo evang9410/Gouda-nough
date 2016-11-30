@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +27,19 @@ import com.nough.gouda.goudanough.databases.DBHelper;
 import java.util.List;
 
 /**
- * Created by 1333612 on 11/29/2016.
+ * This Add Resto activity has the purpose
+ * of adding new restaurants to the database.
+ * The Resto has the Phone Number and Address as unique fields.
+ * Distinct establishments do not have the same Phone Number.
+ * Distinct establishments do not have the same Address.
+ *
+ * Right now this class does not do major validation.
+ * The phone numbers field should contain only numbers.
+ * The postal code should be properly formatted.
+ * Cities cannot have numbers.. etc.
+ * Besides that, everything should be working well and fine.
+ *
+ * @author Ryan Sena
  */
 
 public class AddRestoActivity extends Activity {
@@ -49,17 +64,14 @@ public class AddRestoActivity extends Activity {
         setContentView(R.layout.activity_add_resto);
         initFields();
         setSpinners();
-        
-        //String s = getIntent().getStringExtra("activityValue");
 
-        //this.deleteDatabase("goudanough.db");
+        dao = DBHelper.getDBHelper(this);
 
     }
 
     public void onSaveClicked(View v){
         if(areAllFieldsEntered())
         {
-            dao = DBHelper.getDBHelper(this);
             Restaurant resto = new Restaurant();
 
             Address addr = new Address();
@@ -74,24 +86,22 @@ public class AddRestoActivity extends Activity {
             resto.setRating(rating_spinner.getSelectedItem().toString());
             int price = Integer.parseInt(price_spinner.getSelectedItem().toString());
             resto.setPrice_range(price);
+            resto.setAddress(addr);
             //resto.setFeatured_image(); // TODO Must be with zomato.
             //resto.setLatitude();//        TODO Must be with Zomato
             //resto.setLongitude();//       TODO Must be with zomato.
             //int userId = getUserID() //   TODO GET THE USER ID FROM THE AUTHENTICATION PAGE.
+            try  {
+                dao.insertNewResto(resto, 1);// ONE FOR NOW BUT CHANGE LATER!
 
-            dao.insertNewResto(resto,1);// ONE FOR NOW BUT CHANGE LATER!
-            List<Restaurant> restos = dao.getAllRestaurants();
-            List<User> users = dao.getAllUsers();
-            for(Restaurant r : restos){
-                Log.d(TAG,r.getName());
+                int restoId = dao.getRestoIdByPhoneNumber(resto.getPhone_numbers());// phone number is a unique field.
+                Log.d(TAG,restoId+"");
+                dao.insertNewAddress(addr,restoId);//insert a new address to this restoID.
+                redirectToMain();
+            }catch(Exception sqld){
+                Toast toast = Toast.makeText(this,"The resto " + resto.getName() +" already exists.",Toast.LENGTH_SHORT);
+                toast.show();
             }
-            for(User u : users){
-                Log.d(TAG,u.getName());
-            }
-            //int restoId = dao.getRestoIdByName(resto.getName());// get the resto id based on the name.
-            //Log.d(TAG,restoId+"");
-            //dao.insertNewAddress(addr,restoId);//insert a new address to this restoID.
-            redirectToMain();
         }
         else{
             Toast toast = Toast.makeText(this,"One of your fields was not entered.",Toast.LENGTH_SHORT);
@@ -118,7 +128,6 @@ public class AddRestoActivity extends Activity {
                 .setMessage("Are you sure you wanna discart your changes ?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog,int which){
-                        //// TODO: 11/29/2016
                         redirectToMain();
                     }
                 })
@@ -130,6 +139,7 @@ public class AddRestoActivity extends Activity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
 
     private void redirectToMain(){
         Intent i = new Intent(this, MainActivity.class);

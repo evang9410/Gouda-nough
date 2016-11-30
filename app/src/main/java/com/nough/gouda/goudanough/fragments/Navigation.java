@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.activities.AddRestoActivity;
+import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.RestaurantInfo;
+import com.nough.gouda.goudanough.beans.User;
 import com.nough.gouda.goudanough.databases.DBHelper;
 
 import java.util.List;
@@ -61,14 +63,22 @@ public class Navigation extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().deleteDatabase("goudanough.db");
+        //getActivity().deleteDatabase("goudanough.db");
         dao = dao.getDBHelper(getActivity());
-        dao.insertNewUser("Ryan","H3W1N1","wolrd","railanderson@gmail.com"); //works
-        dao.insertNewUser("Evan","H3W1N1","wolrd","railanderson@gmail.com");
-        Restaurant resto = new Restaurant("My fav resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-        Restaurant resto2 = new Restaurant("My fav resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        /*  THIS IS DUMMY DATA FOR TESTING, DELETE THIS BEFORE FINAL DEPLOY
+        User u1 = new User("Ryan", "world", "railanderson@gmail.com", "H3W1N1", "skorpz");
+        User u2 = new User("Evan", "World", "railanderson@gmail.com", "H3W1N1","gliko");
+        dao.insertNewUser(u1); //works
+        dao.insertNewUser(u2);
+        Restaurant resto = new Restaurant("My fav resto", "https://google.com", "food","5145597108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        Restaurant resto2 = new Restaurant("My fav resto2", "https://google.com", "food","5145597109",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
+        resto.setAddress(new Address("Dawson","4568","Montreal","H3W1K6"));
+        resto2.setAddress(new Address("College","4689","Montreal","H5L9F1"));
         dao.insertNewResto(resto, 1);
         dao.insertNewResto(resto2,1);
+        dao.insertNewAddress(new Address("Dawson","4568","Montreal","H3W1K6"),1);
+        dao.insertNewAddress(new Address("College","4689","Montreal","H5L9F1"),2);
+         */
 //        if (getArguments() != null) {
 //
 //        }

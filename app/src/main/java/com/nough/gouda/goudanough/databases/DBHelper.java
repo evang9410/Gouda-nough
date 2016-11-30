@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -19,7 +20,8 @@ import java.util.List;
 /**
  * This class has the purpose of dealing
  * with all the CRUD operations involving our database.
- * Created by Ryan Sena on 11/23/2016.
+ *
+ * @author Ryan Sena
  */
 public class DBHelper extends SQLiteOpenHelper {
     public static final String TAG = "DB";// for logging
@@ -56,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USERID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_USER_POSTALCODE = "postalCode";
+    public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_PASS = "pass";
     public static final String COLUMN_EMAIL = "email";
     //ADDRESS TABLE
@@ -89,9 +92,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_RESTAURANT = "create table " + TABLE_RESTAURANT
             + "( "
             + COLUMN_RESTOID + " integer primary key autoincrement, "
-            + COLUMN_RESTO_NAME + " text unique, "
+            + COLUMN_RESTO_NAME + " text, "
             + COLUMN_PRICERANGE + " int, "
-            + COLUMN_PHONENUMBER + " text, "
+            + COLUMN_PHONENUMBER + " text unique, "
             + COLUMN_RATING + " text, "
             + COLUMN_CUISINE + " text, "
             + COLUMN_RESTO_USERID + " integer, "
@@ -105,7 +108,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_USER = "create table " + TABLE_USERS
             + "( "
             + COLUMN_USERID + " integer primary key autoincrement, "
-            + COLUMN_NAME + " text unique, "
+            + COLUMN_NAME + " text, "
+            + COLUMN_USERNAME + " text unique, "
             + COLUMN_USER_POSTALCODE + " text, "
             + COLUMN_PASS + " text, "
             + COLUMN_EMAIL + " text"
@@ -199,6 +203,9 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public long insertNewResto(Restaurant resto, int userId)
     {
+        int restoId = getRestoIdByAddress(resto.getAddress());
+        if(restoId > 0)// meaning that the resto already exists in the database.
+            throw new RuntimeException("The resto already exists");
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_RESTO_NAME,resto.getName());
         cv.put(COLUMN_PRICERANGE,resto.getPrice_range());
@@ -211,30 +218,30 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_IMG,resto.getFeatured_image());
         cv.put(COLUMN_URL,resto.getUrl());
 
-        return getWritableDatabase().insert(TABLE_RESTAURANT, null, cv);
+        return getWritableDatabase().insertOrThrow(TABLE_RESTAURANT, null, cv);
 
 
     }
 
     /**
      * This method will take care of inserting a new user record to the database.
+     * The userName constraint is unique. Therefore, if the user tries to insert a new user with
+     * the same user name, it will throw a SQLConstraintException that should be caught at the
+     * one who is calling this method.
      *
-     * @param name name of the person.
-     * @param postalCode person's postal code.
-     * @param pass user's password.
-     * @param email user's email.
      * @return the number of rows affected.
      */
-    public long insertNewUser(String name, String postalCode, String pass, String email){
+    public long insertNewUser(User newUser){
 
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_NAME,name);
-        cv.put(COLUMN_USER_POSTALCODE,postalCode);
-        cv.put(COLUMN_PASS,pass);
-        cv.put(COLUMN_EMAIL,email);
+        cv.put(COLUMN_NAME,newUser.getName());
+        cv.put(COLUMN_USERNAME,newUser.getUserName());
+        cv.put(COLUMN_USER_POSTALCODE,newUser.getPostalCode());
+        cv.put(COLUMN_PASS,newUser.getPass());
+        cv.put(COLUMN_EMAIL,newUser.getEmail());
 
-        return getWritableDatabase().insert(TABLE_USERS, null, cv);
+        return getWritableDatabase().insertOrThrow(TABLE_USERS, null, cv);
     }
 
     /**
@@ -344,6 +351,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 do{// loop trough each record, getting the values column by column and adding to a
                     // list of comments
                     user.setId(c.getInt(c.getColumnIndex(COLUMN_USERID)));
+                    user.setUserName(c.getString(c.getColumnIndex(COLUMN_USERNAME)));
                     user.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                     user.setEmail(c.getString(c.getColumnIndex(COLUMN_EMAIL)));
                     user.setPass(c.getString(c.getColumnIndex(COLUMN_PASS)));
@@ -561,7 +569,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public int getUserIdByUserName(String userName){
         int userID = 0;
-        String whereClause = COLUMN_NAME + " = ?";
+        String whereClause = COLUMN_USERNAME + " = ?";
         String[] whereArgs = new String[]{userName};
         String[] tableColumns = new String[]{COLUMN_USERID};
         Cursor c = getReadableDatabase().query(TABLE_USERS,tableColumns,whereClause, whereArgs, null,
@@ -594,6 +602,92 @@ public class DBHelper extends SQLiteOpenHelper {
                 do{// loop trough each record, getting the values column by column and adding to a
                     // list of comments
                     result = c.getInt(c.getColumnIndex(COLUMN_RESTOID));
+                }while(c.moveToNext());// should iterate only once because usernames are uniques.
+            }
+        }
+        return result;
+    }
+    /**
+     * This method will get the particular resto id by its phone number since phone number is unique.
+     * @param phone
+     * @return
+     */
+    public int getRestoIdByPhoneNumber(String phone){
+        int result =0 ;
+        String whereClause = COLUMN_PHONENUMBER + " = ?";
+        String[] whereArgs = new String[]{phone};
+        String[] tableColumns = new String[]{COLUMN_RESTOID};
+        Cursor c = getReadableDatabase().query(TABLE_RESTAURANT,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    result = c.getInt(c.getColumnIndex(COLUMN_RESTOID));
+                }while(c.moveToNext());// should iterate only once because usernames are uniques.
+            }
+        }
+        return result;
+    }
+
+    /**
+     * This method will get the resto Id based on the address.
+     * While developping, I ran into the following issue:
+     * what if a person tries to add the exact same resto with the exact same fields ?
+     * well, two restos cannot have the same address since 2 different bodies dont occupy the same space,
+     * right ?
+     * @param addr
+     * @return
+     */
+    public int getRestoIdByAddress(Address addr){
+        int result = 0;
+        int addrId = getAddressId(addr.getStreetNumber(),addr.getStreetName(),addr.getCity());
+        if(addrId > 0)// meaning that there is an address there
+            throw new RuntimeException("The Address already exists.");
+        String[] tableColumns = new String[]{COLUMN_ADDR_RESTOID};
+        String whereClause = COLUMN_ADDRESSID + "  = ?";
+        String[] whereArgs = new String[]{addrId+""};
+        Cursor c = getReadableDatabase().query(TABLE_ADDRESS,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+        if(c != null) {
+            if (c.moveToFirst()) {// move the cursor to the first one
+                do {// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    result = c.getInt(c.getColumnIndex(COLUMN_ADDR_RESTOID));
+                } while (c.moveToNext());// should iterate only once because usernames are uniques.
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Based on the street number, street name and the city, this method will
+     * make a query to the database looking for the address Id that matches those
+     * fields.
+     *
+     * @param streetNumber
+     * @param streetName
+     * @param city
+     * @return
+     */
+    private int getAddressId(String streetNumber, String streetName, String city) {
+        int result =0 ;
+        String[] tableColumns = new String[]{COLUMN_ADDRESSID};
+        String whereClause = COLUMN_STREETNUMBER + " = ?" + " AND "
+                            + COLUMN_STREETNAME + " = ?" + " AND "
+                            + COLUMN_CITY + " = ?";
+        String[] whereArgs = new String[]{streetNumber,streetName,city};
+        Log.d(TAG, "where clause "+whereClause);
+        Log.d(TAG, "where args "+whereArgs);
+        Cursor c = getReadableDatabase().query(TABLE_ADDRESS,tableColumns,whereClause, whereArgs, null,
+                null,null);// query and get the results as a cursor.
+
+        if(c != null){
+            if(c.moveToFirst()){// move the cursor to the first one
+                do{// loop trough each record, getting the values column by column and adding to a
+                    // list of comments
+                    result = c.getInt(c.getColumnIndex(COLUMN_ADDRESSID));
                 }while(c.moveToNext());// should iterate only once because usernames are uniques.
             }
         }
