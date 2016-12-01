@@ -4,6 +4,7 @@ package com.nough.gouda.goudanough.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +23,15 @@ public class Restaurant implements Parcelable {
     private String featured_image;//
     private String rating;
     private List<Comment> comments;
+    private Address address;
 
     /**
      * Default Constructor.
      */
-    public Restaurant(){}
+    public Restaurant(){
+        super();
+        comments = new ArrayList<>();
+    }
 
     public Restaurant(String name, String url, String cuisine,String phone_numbers, int price_range, double latitude, double longitude, String img_src){
         this.name = name;
@@ -125,6 +130,14 @@ public class Restaurant implements Parcelable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     protected Restaurant(Parcel in) {

@@ -10,6 +10,7 @@ public class User {
 
     private int id;
     private String name;
+    private String userName;
     private String pass;
     private String email;
     private String postalCode;
@@ -22,9 +23,9 @@ public class User {
         super();
     }
 
-    public User(int id, String name, String pass, String email, String postalCode) {
-        this.id = id;
+    public User(String name, String pass, String email, String postalCode, String userName) {
         this.name = name;
+        this.userName = userName;
         this.pass = pass;
         this.email = email;
         this.postalCode = postalCode;
@@ -77,6 +78,14 @@ public class User {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
