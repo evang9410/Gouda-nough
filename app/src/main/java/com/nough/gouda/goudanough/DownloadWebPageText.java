@@ -164,6 +164,7 @@ public class DownloadWebPageText extends AsyncTask<String, Void, Restaurant[]> {
                 String latString = arr.getJSONObject(i).getJSONObject("restaurant").getJSONObject("location").get("latitude").toString();
                 double lat = Double.parseDouble(latString);
                 String lonString = arr.getJSONObject(i).getJSONObject("restaurant").getJSONObject("location").get("longitude").toString();
+                String address = arr.getJSONObject(i).getJSONObject("restaurant").getJSONObject("location").get("address").toString();
                 double lon = Double.parseDouble(lonString);
                 String url = arr.getJSONObject(i).getJSONObject("restaurant").get("url").toString();
                 String cuisines = arr.getJSONObject(i).getJSONObject("restaurant").get("cuisines").toString();
@@ -171,6 +172,7 @@ public class DownloadWebPageText extends AsyncTask<String, Void, Restaurant[]> {
                 String priceRangeString = arr.getJSONObject(i).getJSONObject("restaurant").get("price_range").toString();
                 int price_range = Integer.parseInt(priceRangeString);
                 String phoneNumber = "";
+
                 try {
                     phoneNumber = arr.getJSONObject(i).getJSONObject("restaurant").get("phone_numbers").toString();
                 } catch (JSONException js) {

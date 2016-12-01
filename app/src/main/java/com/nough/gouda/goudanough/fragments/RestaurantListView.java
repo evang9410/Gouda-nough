@@ -19,6 +19,7 @@ import com.nough.gouda.goudanough.R;
 import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.RestaurantListViewAdapter;
 import com.nough.gouda.goudanough.ShowRestaurantActivity;
+import com.nough.gouda.goudanough.databases.DBHelper;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
@@ -48,6 +49,8 @@ public class RestaurantListView extends ListFragment {
     private String mParam1;
     private String mParam2;
 
+    private DBHelper dao;
+
     private OnRestaurantListViewListener mListener;
     public interface OnRestaurantListViewListener{
         void setRestaurant(Restaurant restaurant);
@@ -56,6 +59,7 @@ public class RestaurantListView extends ListFragment {
 
     public RestaurantListView() {
         // Required empty public constructor
+
     }
 
 
@@ -115,6 +119,7 @@ public class RestaurantListView extends ListFragment {
                     startActivity(intent);
                 }else{
                     Log.i(RESTO_TAG,"No telephone service enabled.");
+                    // Custom Alert Dialog
                     GoudaNoughAlertDialog alert = new GoudaNoughAlertDialog();
                     Bundle b = new Bundle();
                     //b.putString("header","Calling Error");
@@ -136,6 +141,13 @@ public class RestaurantListView extends ListFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // click event
                 Restaurant r = (Restaurant)adapterView.getAdapter().getItem(i);
+                dao = DBHelper.getDBHelper(getActivity());// get the db state.
+                try {
+                    dao.insertNewResto(r, 1);// THE USER MUST BE SOMEONE WHO IS LOGGED IN THEREFORE WE NEED THE LOGIN SHIT DONE TO IMPLEMENT THAT.
+                }catch(Exception exc){
+                    Log.d(RESTO_TAG,"Cant insert resto.");
+                }
+
                 // send the restaurant to the ShowRestaurantActivity
                 // using the fragment to activity interface.
 
