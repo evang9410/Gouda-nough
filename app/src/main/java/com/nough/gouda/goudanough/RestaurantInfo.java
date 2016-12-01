@@ -54,6 +54,20 @@ public class RestaurantInfo extends AppCompatActivity {
 
 
     public class DownloadWebpageText extends AsyncTask<String, Void, Restaurant[]> {
+        private double longitude;
+        private double latitude;
+        private Context context;
+
+        public DownloadWebpageText(double longitude, double latitude, Context c){
+            super();
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.context = c;
+
+        }
+        public DownloadWebpageText(){
+            super();
+        }
 
         protected void onPostExecute(String result) {
             Log.d("tag", "onPostExecute: " + result);
@@ -82,8 +96,6 @@ public class RestaurantInfo extends AppCompatActivity {
             // web page content.
             // int len = MAXBYTES;
             // call request permisson
-
-            requestLocation();
             HttpURLConnection conn = null;
             URL url = new URL(myurl);
             try {
@@ -138,43 +150,6 @@ public class RestaurantInfo extends AppCompatActivity {
 
         } // downloadUrl()
 
-        private void requestLocation() {/*
-            if(ContextCompat.checkSelfPermission(getBaseContext(),
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED){
-                shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION);
-            }else{
-                ActivityCompat.requestPermissions(RestaurantInfo.this,
-                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            }
-*/
-            // Here, thisActivity is the current activity
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-
-                } else {
-
-                    // No explanation needed, we can request the permission.
-
-                    ActivityCompat.requestPermissions(RestaurantInfo.this,
-                            new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                            1);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
-            }
-        }
-
 
         public Restaurant[] convertStreamToJson(InputStream inputStream) throws IOException, JSONException {
 
@@ -217,7 +192,7 @@ public class RestaurantInfo extends AppCompatActivity {
                     }
 
                     restaurants[i] = new Restaurant(name, url, cuisines, phoneNumber, price_range, lat, lon, image);
-                    CurrentRestaurants.closeByRestaurants[i] = restaurants[i];
+                    //CurrentRestaurants.closeByRestaurants[i] = restaurants[i];
                     // add to listview in main activity from here.
                 }
 

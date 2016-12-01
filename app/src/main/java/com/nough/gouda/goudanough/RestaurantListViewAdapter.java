@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.nough.gouda.goudanough.beans.Restaurant;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Created by 1432581 on 11/23/2016.
  */
@@ -57,4 +61,5 @@ public class RestaurantListViewAdapter extends ArrayAdapter<Restaurant> {
         this.data = rs;
         notifyDataSetChanged();
     }
+
 }

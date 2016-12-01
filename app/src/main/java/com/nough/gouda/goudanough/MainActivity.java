@@ -24,11 +24,14 @@ import com.nough.gouda.goudanough.fragments.Header;
 import com.nough.gouda.goudanough.fragments.Navigation;
 import com.nough.gouda.goudanough.fragments.RestaurantListView;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity implements Navigation.OnNavigationListener, RestaurantListView.OnRestaurantListViewListener {
     private static final String TAG = "Main Activity";
     private RestaurantListViewAdapter adapter;
     private Restaurant[] favourite_restaurants;
     private Restaurant selected_restaurant;
+    private Restaurant[] nearby_restaurants;
     // Fragment objects. Should be better named tbh.
     private Header header;
     private Navigation nav;
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements Navigation.OnNavi
         Restaurant[] rs = new Restaurant[2];
         rs[0] = new Restaurant("My resto", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
         rs[1] = new Restaurant("My resto2", "https://google.com", "food","514-559-7108",2, 2.2,2.1,"http://i.imgur.com/BTyyfVQ.jpg");
-        adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview,rs);
+        adapter = new RestaurantListViewAdapter(this,R.layout.restaurant_listview, rs);
 
         list.setAdapter(adapter);
     }
@@ -72,7 +75,17 @@ public class MainActivity extends AppCompatActivity implements Navigation.OnNavi
     public void setFavourites(Restaurant[] favourite_restaurants) {
         this.favourite_restaurants = favourite_restaurants;
         adapter.setDataset(favourite_restaurants);
+        list.setAdapter(adapter);
         list_title.setText("Favourites");
+    }
+
+    @Override
+    public void setNearby(Restaurant[] nearby_restaurants) {
+        this.nearby_restaurants = nearby_restaurants;
+        adapter = new RestaurantListViewAdapter(this, R.layout.restaurant_listview, nearby_restaurants);
+        list.setAdapter(adapter);
+        //list.setAdapter(adapter);
+        list_title.setText("Nearby");
     }
 
     @Override
