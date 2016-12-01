@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.nough.gouda.goudanough.CurrentRestaurants;
+import com.nough.gouda.goudanough.beans.Address;
 import com.nough.gouda.goudanough.beans.Restaurant;
 import com.nough.gouda.goudanough.fragments.Navigation;
 
@@ -157,7 +158,6 @@ public class DownloadWebPageText extends AsyncTask<String, Void, Restaurant[]> {
         try {
             JSONArray arr = obj.getJSONArray("nearby_restaurants");
             restaurants = new Restaurant[arr.length()];
-
             for (int i = 0; i < arr.length(); i++) {
                 String name = arr.getJSONObject(i).getJSONObject("restaurant").get("name").toString();
                 // String address = arr.getJSONObject(0).getJSONObject("restaurant").getJSONObject("location").get("address").toString();
@@ -180,6 +180,8 @@ public class DownloadWebPageText extends AsyncTask<String, Void, Restaurant[]> {
                 }
 
                 this.restaurants[i] = new Restaurant(name, url, cuisines, phoneNumber, price_range, lat, lon, image);
+                this.restaurants[i].setAddress(Address.toAddress(address));
+                Log.d(TAG,restaurants[i].getAddress().toString());
                 CurrentRestaurants.closeByRestaurants[i] = restaurants[i];
                 // add to listview in main activity from here.
             }

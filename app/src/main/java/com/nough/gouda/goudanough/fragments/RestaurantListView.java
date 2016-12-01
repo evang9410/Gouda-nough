@@ -144,6 +144,8 @@ public class RestaurantListView extends ListFragment {
                 dao = DBHelper.getDBHelper(getActivity());// get the db state.
                 try {
                     dao.insertNewResto(r, 1);// THE USER MUST BE SOMEONE WHO IS LOGGED IN THEREFORE WE NEED THE LOGIN SHIT DONE TO IMPLEMENT THAT.
+                    int restoId = dao.getRestoIdByName(r.getName());// PHONE NUMBER MUST BE FIXED, RIGHT NOW IT DOES BY NAME AND NAME IS NOT UNIQUE.
+                    dao.insertNewAddress(r.getAddress(),restoId);
                 }catch(Exception exc){
                     Log.d(RESTO_TAG,"Cant insert resto.");
                 }

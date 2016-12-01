@@ -67,13 +67,26 @@ public class Address {
         this.postalCode = postalCode;
     }
 
+    public static Address toAddress(String address){
+
+        String[] separateByComa = address.split(",");
+        String streetNum = separateByComa[0].substring(0, separateByComa[0].indexOf(" "));
+        String streetName = separateByComa[0].substring(separateByComa[0].indexOf(" ")+1);
+        String city = separateByComa[1];
+        int blank = separateByComa[2].indexOf(" ");
+        String postalCode = "";
+        if(blank != -1)
+            postalCode = separateByComa[2].substring(blank);
+        return new Address(streetName,streetNum,city,postalCode);
+    }
+
     @Override
     public String toString(){
         String returnObj = "address : {\n";
-        returnObj += "id : " + id +",\n";
-        returnObj += "streetName : " + streetName +",\n";
-        returnObj += "streetNumber : " + streetNumber +",\n";
-        returnObj += "city : " + city +",\n";
+        returnObj += "id : " + id +"\n";
+        returnObj += "streetName : " + streetName +"\n";
+        returnObj += "streetNumber : " + streetNumber +"\n";
+        returnObj += "city : " + city +"\n";
         returnObj += "postalCode : " + postalCode +"\n";
         returnObj += "}";
         return returnObj;
