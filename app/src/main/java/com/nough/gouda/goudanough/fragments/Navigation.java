@@ -227,9 +227,6 @@ public class Navigation extends Fragment implements
                     case R.id.nav_tip_calculator:
                         Log.d(TAG, "tip calculator selected");
                         // launch tip activity
-                        for (int i = 0; i < CurrentRestaurants.closeByRestaurants.length; i++) {
-                            System.out.println(CurrentRestaurants.closeByRestaurants[i].toString());
-                        }
 
                         break;
                 }
